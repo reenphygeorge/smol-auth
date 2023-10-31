@@ -1,10 +1,10 @@
 const posts = [
     {
-        username: 'rxg',
+        email: 'sona@gmail.com',
         title: 'Title1'
     },
     {
-        username: 'leo',
+        email: 'leo',
         title: 'Thalapathy'
     }
 ]

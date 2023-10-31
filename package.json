@@ -10,24 +10,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/xauth.git"
+    "url": "git+https://github.com/reenphygeorge/smoll-auth.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/reenphygeorge/xauth/issues"
+    "url": "https://github.com/reenphygeorge/smoll-auth/issues"
   },
-  "homepage": "https://github.com/reenphygeorge/xauth#readme",
+  "homepage": "https://github.com/reenphygeorge/smoll-auth#readme",
   "devDependencies": {
     "@types/express": "^4.17.20",
     "@types/node": "^20.8.7",
+    "@types/bcryptjs": "^2.4.5",
+    "@types/better-sqlite3": "^7.6.6",
+    "@types/jsonwebtoken": "^9.0.4",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@types/jsonwebtoken": "^9.0.4",
+    "@paralleldrive/cuid2": "^2.2.2",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^9.0.0",
     "dotenv": "^16.3.1",

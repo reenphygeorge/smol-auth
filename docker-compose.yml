@@ -21,19 +21,19 @@ services:
       - 8001:8001
     volumes:
       - redis_insight_volume_data:/db
-  core:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      redis:
-        condition: service_healthy
-    environment:
-      - API_PORT=${API_PORT}
-      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
-      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
-    ports:
-      - 8000:8000
+  # core:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #   environment:
+  #     - API_PORT=${API_PORT}
+  #     - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+  #     - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+  #   ports:
+  #     - 8000:8000
 volumes:
   redis_volume_data:
   redis_insight_volume_data:
