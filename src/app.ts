@@ -12,8 +12,8 @@ app.use(express.json());
 
 smol()
     .addRoles({
-        admin: ['/add', 'delete'],
-        user: ['/view', 'edit'],
+        admin: [{ route: '/users', method: '*' }, { route: '/devs', method: '*' }],
+        user: [{ route: '/users', method: ['GET'] }, { route: '/devs', method: ['GET'] }],
     })
     .addCache('redis://:@localhost:6379')
     .execute(app, 'data2.db')

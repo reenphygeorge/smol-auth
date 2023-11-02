@@ -3,9 +3,16 @@ import { refreshToken, refreshTokenNoCache, signin, signinNoCache, signout, sign
 import { cacheInit } from "../smol-core/caching";
 import { userDbInit, tokenDbInit } from "../smol-core/db";
 
-type role = {
-    [key: string]: string[];
+type Role = {
+    [key: string]: RouteSpec[];
 }
+
+type RouteSpec = {
+    route: string;
+    method: '*' | Methods[]
+}
+
+type Methods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
 
 class SmolAuth {
     public __cacheInitialized: boolean = false;
@@ -15,7 +22,7 @@ class SmolAuth {
         cacheInit(redisUrl);
         return this;
     }
-    addRoles(roles: role): SmolAuth {
+    addRoles(roles: Role): SmolAuth {
         // TODO: RBAC
         console.log(roles);
         return this;
