@@ -3,7 +3,7 @@ import { createClient } from "redis"
 
 let redisClient: any
 
-const createNewToken = async (token: string): Promise<string> => {
+const createNewTokenCache = async (token: string): Promise<string> => {
     // Generate a key in redis
     const tokenId = createId();
     // Add the values to redis and return tokenId
@@ -11,7 +11,7 @@ const createNewToken = async (token: string): Promise<string> => {
     return tokenId;
 }
 
-const removeToken = async (tokenId: string) => {
+const removeTokenCache = async (tokenId: string) => {
     await redisClient.del(tokenId);
 }
 
@@ -24,7 +24,7 @@ const cacheInit = async (redisUrl: string) => {
     // await redisClient.disconnect();
 }
 
-const getRefreshTokens = async (tokenId: string): Promise<string> => {
+const getTokenByIdCache = async (tokenId: string): Promise<string> => {
     return await redisClient.get(tokenId);
 }
-export { createNewToken, removeToken, cacheInit, getRefreshTokens };
+export { createNewTokenCache, removeTokenCache, cacheInit, getTokenByIdCache };

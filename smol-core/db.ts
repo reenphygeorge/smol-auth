@@ -1,13 +1,14 @@
-import { Schema, newUser } from './types'
+import { createId } from '@paralleldrive/cuid2';
+import { Schema, newToken, newUser } from './types'
 import Database from 'better-sqlite3';
 import { Kysely, SqliteDialect, sql } from 'kysely'
 
 let db: Kysely<Schema>
 
-const dbInit = async (userdbPath: string) => {
+const userDbInit = async (userDBPath: string) => {
     try {
         const dialect = new SqliteDialect({
-            database: new Database(userdbPath),
+            database: new Database(userDBPath),
         })
 
         db = new Kysely<Schema>({
@@ -50,4 +51,53 @@ const getUserByEmail = async (email: string) => {
         .executeTakeFirst()
 }
 
-export { dbInit, createUser, getUserByEmail, updateRefreshTokenId }
+// --- Refresh Token inside sqlite: No cache mode ---
+
+const tokenDbInit = async (dbPath: string) => {
+    try {
+        const dialect = new SqliteDialect({
+            database: new Database(dbPath),
+        })
+
+        db = new Kysely<Schema>({
+            dialect,
+        })
+        await db.schema.createTable('tokenStore')
+            .addColumn('id', 'integer', (cb) => cb.primaryKey().autoIncrement().notNull())
+            .addColumn('tokenId', 'varchar(50)', (cb) => cb.notNull())
+            .addColumn('token', 'varchar(100)', (cb) => cb.notNull())
+            .execute()
+    } catch { }
+}
+
+// Generate a key in db
+const createNewToken = async (token: string) => {
+    const tokenId = createId();
+    const newToken: newToken = {
+        tokenId,
+        token
+    }
+    // Add the values to db and return tokenId
+    await db.insertInto('tokenStore')
+        .values(newToken)
+        .returningAll()
+        .executeTakeFirstOrThrow()
+    return tokenId;
+}
+
+// Get tokens from db
+const getTokenById = async (tokenId: string) => {
+    return await db.selectFrom('tokenStore')
+        .where('tokenId', '=', tokenId)
+        .selectAll()
+        .executeTakeFirst()
+}
+
+// Delete tokens from db
+const removeToken = async (tokenId: string) => {
+    return await db.deleteFrom('tokenStore')
+        .where('tokenId', '=', tokenId)
+        .executeTakeFirst()
+}
+
+export { userDbInit, tokenDbInit, createUser, getUserByEmail, updateRefreshTokenId, createNewToken, getTokenById, removeToken }

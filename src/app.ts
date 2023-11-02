@@ -3,14 +3,20 @@ import dotenv from 'dotenv';
 import posts from './data';
 
 import { validateUser } from '../smol-express/middleware';
-import { smolInit } from '../smol-express/routes';
+import { smol } from '../smol-express/routes';
 
 const app: Application = express();
 
 dotenv.config();
 app.use(express.json());
 
-smolInit(app,'redis://:@localhost:6379','data.db')
+smol()
+    .addRoles({
+        admin: ['/add', 'delete'],
+        user: ['/view', 'edit'],
+    })
+    .addCache('redis://:@localhost:6379')
+    .execute(app, 'data2.db')
 
 app.get('/', (_: Request, res: Response) => {
     res.json({ status: 'running' });
