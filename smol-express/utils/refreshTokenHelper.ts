@@ -25,7 +25,7 @@ export const refreshTokenHelper = async (req: Request, res: Response, useCache: 
             success: false,
             message: 'Refresh Token Error'
         })
-        const tokenData = { email: parsedData.email }
+        const tokenData = { authId: parsedData.authId, role: parsedData.role }
         const accessToken = generateAccessToken(tokenData)
         return res.json({ success: true, accessToken })
     })

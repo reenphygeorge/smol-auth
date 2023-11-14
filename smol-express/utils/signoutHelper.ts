@@ -30,7 +30,7 @@ export const signoutHelper = async (req: Request, res: Response, useCache: boole
             // Removing refresh token from db
             removeToken(refreshTokenId)
         // Remove refresh token from db
-        updateRefreshTokenId(parsedData.email, '')
+        updateRefreshTokenId(parsedData.authId, '')
         return res.json({ "success": true, message: 'bye' })
     })
 }

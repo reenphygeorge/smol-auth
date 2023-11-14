@@ -1,8 +1,8 @@
 import { sign } from 'jsonwebtoken';
 
 type TokenData = {
-    email: string;
-    // roles:
+    authId: string;
+    role: string;
 }
 
 const generateAccessToken = (tokenData: TokenData) => {

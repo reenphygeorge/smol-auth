@@ -27,4 +27,5 @@ const cacheInit = async (redisUrl: string) => {
 const getTokenByIdCache = async (tokenId: string): Promise<string> => {
     return await redisClient.get(tokenId);
 }
+
 export { createNewTokenCache, removeTokenCache, cacheInit, getTokenByIdCache };

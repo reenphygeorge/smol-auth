@@ -4,6 +4,7 @@ import { signupHelper } from './utils/signupHelper';
 import { signinHelper } from './utils/signinHelper';
 import { refreshTokenHelper } from './utils/refreshTokenHelper';
 import { signoutHelper } from './utils/signoutHelper';
+import { roleUpdateHelper } from './utils/roleUpdateHelper';
 
 function validateUser(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization']
@@ -56,4 +57,8 @@ async function signoutNoCache(req: Request, res: Response, _: NextFunction) {
     await signoutHelper(req, res, false)
 }
 
-export { validateUser, signup, signupNoCache, signin, signinNoCache, refreshToken, refreshTokenNoCache, signout, signoutNoCache }
+function roleUpdater(req: Request, res: Response, _: NextFunction) {
+    roleUpdateHelper(req, res)
+}
+
+export { validateUser, signup, signupNoCache, signin, signinNoCache, refreshToken, refreshTokenNoCache, signout, signoutNoCache, roleUpdater }

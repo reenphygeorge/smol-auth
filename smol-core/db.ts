@@ -1,10 +1,13 @@
 import { createId } from '@paralleldrive/cuid2';
-import { Schema, newToken, newUser } from './types'
+import { Schema, UpdateUserData, newToken, newUser } from './types'
 import Database from 'better-sqlite3';
 import { Kysely, SqliteDialect, sql } from 'kysely'
 
 let db: Kysely<Schema>
 
+// --- User Data ---
+
+// Initialize user table in db
 const userDbInit = async (userDBPath: string) => {
     try {
         const dialect = new SqliteDialect({
@@ -19,6 +22,7 @@ const userDbInit = async (userDBPath: string) => {
             .addColumn('auth_id', 'varchar(50)', (cb) => cb.notNull())
             .addColumn('email', 'varchar(50)', (cb) => cb.notNull())
             .addColumn('password', 'varchar(50)')
+            .addColumn('role', 'varchar(50)')
             .addColumn('refreshTokenId', 'varchar(50)')
             .addColumn('created_at', 'timestamptz', (cb) =>
                 cb.notNull().defaultTo(sql`current_timestamp`)
@@ -27,6 +31,7 @@ const userDbInit = async (userDBPath: string) => {
     } catch { }
 }
 
+// Create new user while signup
 const createUser = async (user: newUser) => {
     await db.insertInto('user')
         .values(user)
@@ -34,16 +39,18 @@ const createUser = async (user: newUser) => {
         .executeTakeFirstOrThrow()
 }
 
-const updateRefreshTokenId = async (email: string, refreshTokenId: string) => {
+// Update refresh tokens id in user table while new signin
+const updateRefreshTokenId = async (authId: string, refreshTokenId: string) => {
     await db
         .updateTable('user')
         .set({
             refreshTokenId,
         })
-        .where('email', '=', email)
+        .where('auth_id', '=', authId)
         .executeTakeFirst()
 }
 
+// Get user data by email after signin/signup to get data for updating with authID
 const getUserByEmail = async (email: string) => {
     return await db.selectFrom('user')
         .where('email', '=', email)
@@ -51,8 +58,26 @@ const getUserByEmail = async (email: string) => {
         .executeTakeFirst()
 }
 
+const getUser = async (authId: string) => {
+    return await db.selectFrom('user')
+        .where('auth_id', '=', authId)
+        .selectAll()
+        .executeTakeFirst()
+}
+
+const updateUser = async (authId: string, user: UpdateUserData) => {
+    return await db
+        .updateTable('user')
+        .set({
+            ...user
+        })
+        .where('auth_id', '=', authId)
+        .executeTakeFirst()
+}
+
 // --- Refresh Token inside sqlite: No cache mode ---
 
+// Initialize token table in db
 const tokenDbInit = async (dbPath: string) => {
     try {
         const dialect = new SqliteDialect({
@@ -100,4 +125,4 @@ const removeToken = async (tokenId: string) => {
         .executeTakeFirst()
 }
 
-export { userDbInit, tokenDbInit, createUser, getUserByEmail, updateRefreshTokenId, createNewToken, getTokenById, removeToken }
+export { userDbInit, tokenDbInit, createUser, getUserByEmail, updateRefreshTokenId, createNewToken, getTokenById, removeToken, updateUser, getUser }

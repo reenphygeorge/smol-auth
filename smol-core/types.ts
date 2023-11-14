@@ -1,4 +1,4 @@
-import { ColumnType, Generated, Insertable, Selectable } from 'kysely'
+import { ColumnType, Generated, Insertable, Selectable, Updateable } from 'kysely'
 
 export interface Schema {
     user: User
@@ -10,6 +10,7 @@ export interface User {
     auth_id: string;
     email: string;
     password: string;
+    role: string;
     refreshTokenId: string;
     created_at: ColumnType<Date, string | undefined, never>
 }
@@ -21,6 +22,7 @@ export interface TokenStore {
 }
 
 export type newUser = Insertable<User>
+export type UpdateUserData = Updateable<User>
 export type viewUser = Selectable<User>
 
 export type newToken = Insertable<TokenStore>

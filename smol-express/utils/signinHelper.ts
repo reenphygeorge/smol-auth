@@ -11,8 +11,13 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
     if (userData) {
         // cross check password
         if (await compare(password, userData.password)) {
-            const tokenData = { email }
-
+            // Get data from db
+            const { role, auth_id } = (await getUserByEmail(email))
+            const tokenData = {
+                authId: auth_id,
+                role
+            }
+            // Generate new tokens with the id & role
             const accessToken = generateAccessToken(tokenData)
             const refreshToken = generateRefreshToken(tokenData)
             let refreshTokenId: string;
@@ -22,7 +27,9 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
             else
                 // Store refresh token in db
                 refreshTokenId = await createNewToken(refreshToken);
-            await updateRefreshTokenId(email, refreshTokenId)
+            
+                // Update user with the new refresh token
+            await updateRefreshTokenId(auth_id, refreshTokenId)
             return res.json({ success: true, accessToken, refreshTokenId })
         }
         return res.status(403).json({

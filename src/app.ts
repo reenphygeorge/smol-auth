@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import posts from './data';
 
 import { validateUser } from '../smol-express/middleware';
-import { smol } from '../smol-express/routes';
+import { smol } from '../smol-express/init';
 
 const app: Application = express();
 
@@ -11,11 +11,13 @@ dotenv.config();
 app.use(express.json());
 
 smol()
-    .addRoles({
-        admin: [{ route: '/users', method: '*' }, { route: '/devs', method: '*' }],
-        user: [{ route: '/users', method: ['GET'] }, { route: '/devs', method: ['GET'] }],
-    })
     .addCache('redis://:@localhost:6379')
+    .addRoles({
+        admin: '*',
+        user: [{ route: '/users', method: ['GET'] }, { route: '/devs', method: ['GET'] }],
+        clerk: [{ route: '/users', method: '*' }],
+        viewer: [{ route: '/users', method: ['GET'] }]
+    }, { defaultRole: 'viewer' })
     .execute(app, 'data2.db')
 
 app.get('/', (_: Request, res: Response) => {
