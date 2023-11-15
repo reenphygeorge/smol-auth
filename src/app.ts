@@ -14,9 +14,9 @@ smol()
     .addCache('redis://:@localhost:6379')
     .addRoles({
         admin: '*',
-        user: [{ route: '/users', method: ['GET'] }, { route: '/devs', method: ['GET'] }],
-        clerk: [{ route: '/users', method: '*' }],
-        viewer: [{ route: '/users', method: ['GET'] }]
+        user: [{ route: '/posts', method: ['GET'] }],
+        clerk: [{ route: '/posts', method: ['GET'] }],
+        viewer: [{ route: '/posts', method: ['GET'] }]
     }, { defaultRole: 'viewer' })
     .execute(app, 'data2.db')
 

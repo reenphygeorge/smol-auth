@@ -8,7 +8,7 @@ type TokenData = {
 const generateAccessToken = (tokenData: TokenData) => {
     try {
         return sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '30s'
+            expiresIn: '30m'
         })
     } catch (e) {
         console.log(e);
