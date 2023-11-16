@@ -1,9 +1,5 @@
 import { sign } from 'jsonwebtoken';
-
-type TokenData = {
-    authId: string;
-    role: string;
-}
+import { TokenData } from '.';
 
 const generateAccessToken = (tokenData: TokenData) => {
     try {

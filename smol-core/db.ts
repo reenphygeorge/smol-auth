@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2';
-import { Schema, UpdateUserData, newToken, newUser } from './types'
 import Database from 'better-sqlite3';
 import { Kysely, SqliteDialect, sql } from 'kysely'
+import { Schema, UpdateUserData, NewToken, NewUser } from '.'
 
 let db: Kysely<Schema>
 
@@ -32,7 +32,7 @@ const userDbInit = async (userDBPath: string) => {
 }
 
 // Create new user while signup
-const createUser = async (user: newUser) => {
+const createUser = async (user: NewUser) => {
     await db.insertInto('user')
         .values(user)
         .returningAll()
@@ -98,7 +98,7 @@ const tokenDbInit = async (dbPath: string) => {
 // Generate a key in db
 const createNewToken = async (token: string) => {
     const tokenId = createId();
-    const newToken: newToken = {
+    const newToken: NewToken = {
         tokenId,
         token
     }

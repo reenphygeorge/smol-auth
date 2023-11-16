@@ -1,8 +1,6 @@
 import { Request, Response } from "express"
-import { getTokenByIdCache } from "../../smol-core/caching"
-import { getTokenById } from "../../smol-core/db"
 import { JwtPayload, verify } from "jsonwebtoken"
-import { generateAccessToken } from "../../smol-core/auth"
+import { getTokenByIdCache, getTokenById, generateAccessToken } from "../../smol-core"
 
 export const refreshTokenHelper = async (req: Request, res: Response, useCache: boolean) => {
     const authHeader = req.headers['authorization']

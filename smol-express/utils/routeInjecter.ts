@@ -1,5 +1,5 @@
 import { Application } from "express";
-import { refreshToken, refreshTokenNoCache, roleUpdater, signin, signinNoCache, signout, signoutNoCache, signup, signupNoCache } from "../middleware";
+import { refreshToken, refreshTokenNoCache, roleUpdater, signin, signinNoCache, signout, signoutNoCache, signup, signupNoCache } from "..";
 
 const injectRoutes = (app: Application) => {
     app.post('/signup', signup);

@@ -2,8 +2,8 @@ import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import posts from './data';
 
-import { validateUser } from '../smol-express/middleware';
-import { smol } from '../smol-express/init';
+import { smol } from '../smol-express';
+import { validateUser } from '../smol-express';
 
 const app: Application = express();
 
@@ -14,7 +14,7 @@ smol()
     .addCache('redis://:@localhost:6379')
     .addRoles({
         admin: '*',
-        user: [{ route: '/posts', method: ['GET'] }],
+        user: [{ route: '/post', method: '*' }],
         clerk: [{ route: '/posts', method: ['GET'] }],
         viewer: [{ route: '/posts', method: ['GET'] }]
     }, { defaultRole: 'viewer' })

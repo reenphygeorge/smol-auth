@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
-import { createNewToken, createUser, getUserByEmail } from "../../smol-core/db";
-import { generateAccessToken, generateRefreshToken } from "../../smol-core/auth";
 import { hash } from "bcryptjs";
-import { createNewTokenCache } from "../../smol-core/caching";
 import { createId } from "@paralleldrive/cuid2";
-import { __defaultRole } from "../../smol-core/rbac";
+import { createNewToken, createUser, getUserByEmail, generateAccessToken, generateRefreshToken, createNewTokenCache, __defaultRole } from "../../smol-core";
 
 export const signupHelper = async (req: Request, res: Response, useCache: boolean) => {
     const { email, password } = req.body;

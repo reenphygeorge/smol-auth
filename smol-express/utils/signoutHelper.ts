@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
-import { getTokenByIdCache, removeTokenCache } from "../../smol-core/caching"
-import { getTokenById, removeToken, updateRefreshTokenId } from "../../smol-core/db"
 import { JwtPayload, verify } from "jsonwebtoken"
+import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache } from "../../smol-core"
 
 export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {
     // Retrieving auth headers and separate id from it.

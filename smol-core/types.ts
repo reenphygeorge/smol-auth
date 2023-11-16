@@ -1,11 +1,12 @@
 import { ColumnType, Generated, Insertable, Selectable, Updateable } from 'kysely'
 
-export interface Schema {
+// DB Types
+interface Schema {
     user: User
     tokenStore: TokenStore
 }
 
-export interface User {
+interface User {
     id: Generated<number>;
     auth_id: string;
     email: string;
@@ -15,15 +16,53 @@ export interface User {
     created_at: ColumnType<Date, string | undefined, never>
 }
 
-export interface TokenStore {
+interface TokenStore {
     id: Generated<number>;
     tokenId: string;
     token: string;
 }
 
-export type newUser = Insertable<User>
-export type UpdateUserData = Updateable<User>
-export type viewUser = Selectable<User>
+type NewUser = Insertable<User>
+type UpdateUserData = Updateable<User>
+type ViewUser = Selectable<User>
 
-export type newToken = Insertable<TokenStore>
-export type viewToken = Selectable<TokenStore>
+type NewToken = Insertable<TokenStore>
+type ViewToken = Selectable<TokenStore>
+
+// Other Types
+
+type TokenData = {
+    authId: string;
+    role: string;
+}
+
+type RbacRules = {
+    [key: string]: RouteSpec[] | '*';
+}
+
+type RouteSpec = {
+    route: string;
+    method: '*' | Methods[]
+}
+
+type DefaultRole = {
+    defaultRole: string;
+}
+
+type Methods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
+
+export {
+    Schema,
+    User,
+    TokenStore,
+    NewUser,
+    UpdateUserData,
+    ViewUser,
+    NewToken,
+    ViewToken,
+    TokenData,
+    RbacRules,
+    RouteSpec,
+    DefaultRole,
+    Methods
+}

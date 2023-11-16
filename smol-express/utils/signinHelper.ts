@@ -1,8 +1,6 @@
 import { Request, Response } from "express"
-import { createNewToken, getUserByEmail, updateRefreshTokenId } from "../../smol-core/db"
 import { compare } from "bcryptjs"
-import { generateAccessToken, generateRefreshToken } from "../../smol-core/auth"
-import { createNewTokenCache } from "../../smol-core/caching"
+import { createNewToken, getUserByEmail, updateRefreshTokenId, createNewTokenCache, generateAccessToken, generateRefreshToken } from "../../smol-core"
 
 export const signinHelper = async (req: Request, res: Response, useCache: boolean) => {
     const { email, password } = req.body
@@ -27,8 +25,8 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
             else
                 // Store refresh token in db
                 refreshTokenId = await createNewToken(refreshToken);
-            
-                // Update user with the new refresh token
+
+            // Update user with the new refresh token
             await updateRefreshTokenId(auth_id, refreshTokenId)
             return res.json({ success: true, accessToken, refreshTokenId })
         }

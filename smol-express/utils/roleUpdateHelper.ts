@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import { getUser, updateRefreshTokenId, updateUser } from "../../smol-core/db";
-import { __rbacRules } from "../../smol-core/rbac";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
-import { generateAccessToken, generateRefreshToken } from "../../smol-core/auth";
+import { getUser, updateRefreshTokenId, updateUser, generateAccessToken, generateRefreshToken, __rbacRules } from "../../smol-core";
 
 export const roleUpdateHelper = async (req: Request, res: Response) => {
     // Check if given role is already configured
