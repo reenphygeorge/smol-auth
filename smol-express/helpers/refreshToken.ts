@@ -14,9 +14,10 @@ export const refreshTokenHelper = async (req: Request, res: Response, useCache: 
     if (useCache)
         // Cross check tokens with the ones in cache
         refreshToken = await getTokenByIdCache(refreshTokenId)
-    else
+    else {
         // Cross check tokens with the ones in db
         refreshToken = (await getTokenById(refreshTokenId)).token
+    }
 
     verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, parsedData: JwtPayload) => {
         if (err) return res.status(403).json({

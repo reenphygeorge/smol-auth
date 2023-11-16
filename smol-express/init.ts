@@ -27,7 +27,7 @@ class SmolAuth {
         if (this.__cacheInitialized)
             injectRoutes(app)
         else {
-            tokenDbInit(userdbPath)
+            tokenDbInit()
             injectNoCacheRoutes(app)
         }
 

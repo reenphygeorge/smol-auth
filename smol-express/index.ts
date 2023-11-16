@@ -1,12 +1,12 @@
-import { signup, signupNoCache, signin, signinNoCache, refreshToken, refreshTokenNoCache, signout, signoutNoCache, roleUpdater } from './middleware'
+import { signup, signupNoCache, signin, signinNoCache, refreshToken, refreshTokenNoCache, signout, signoutNoCache } from './middlewares/userActivity'
 import { smol } from './init'
-import { refreshTokenHelper } from './utils/refreshTokenHelper'
-import { roleUpdateHelper } from './utils/roleUpdateHelper'
-import { injectRoutes, injectNoCacheRoutes, injectRbacRoutes } from './utils/routeInjecter'
-import { signinHelper } from './utils/signinHelper'
-import { signupHelper } from './utils/signupHelper'
-import { signoutHelper } from './utils/signoutHelper'
-import { validateUser } from './utils/validateUser'
+import { refreshTokenHelper } from './helpers/refreshToken'
+import { roleUpdater } from './middlewares/roleUpdate'
+import { injectRoutes, injectNoCacheRoutes, injectRbacRoutes } from './helpers/routeInjecter'
+import { signinHelper } from './helpers/signin'
+import { signupHelper } from './helpers/signup'
+import { signoutHelper } from './helpers/signout'
+import { validateUser } from './middlewares/validateUser'
 
 export {
     signup,
@@ -20,7 +20,6 @@ export {
     roleUpdater,
     smol,
     refreshTokenHelper,
-    roleUpdateHelper,
     injectRoutes,
     injectNoCacheRoutes,
     injectRbacRoutes,

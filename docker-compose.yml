@@ -21,6 +21,16 @@ services:
       - 8001:8001
     volumes:
       - redis_insight_volume_data:/db
+  db:
+    image: postgres:latest
+    container_name: smol-db
+    volumes:
+      - ./tmp/pg:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    ports:
+      - 5432:5432
   # core:
   #   build:
   #     context: .

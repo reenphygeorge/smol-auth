@@ -1,6 +1,6 @@
 import { createId } from '@paralleldrive/cuid2';
-import Database from 'better-sqlite3';
-import { Kysely, SqliteDialect, sql } from 'kysely'
+import { Pool } from 'pg'
+import { Kysely, PostgresDialect, sql } from 'kysely'
 import { Schema, UpdateUserData, NewToken, NewUser } from '.'
 
 let db: Kysely<Schema>
@@ -8,24 +8,26 @@ let db: Kysely<Schema>
 // --- User Data ---
 
 // Initialize user table in db
-const userDbInit = async (userDBPath: string) => {
+const userDbInit = async (connectionUrl: string) => {
     try {
-        const dialect = new SqliteDialect({
-            database: new Database(userDBPath),
+        const dialect = new PostgresDialect({
+            pool: new Pool({
+                connectionString: connectionUrl
+            })
         })
 
         db = new Kysely<Schema>({
             dialect,
         })
         await db.schema.createTable('user')
-            .addColumn('id', 'integer', (cb) => cb.primaryKey().autoIncrement().notNull())
-            .addColumn('auth_id', 'varchar(50)', (cb) => cb.notNull())
-            .addColumn('email', 'varchar(50)', (cb) => cb.notNull())
-            .addColumn('password', 'varchar(50)')
-            .addColumn('role', 'varchar(50)')
-            .addColumn('refreshTokenId', 'varchar(50)')
-            .addColumn('created_at', 'timestamptz', (cb) =>
-                cb.notNull().defaultTo(sql`current_timestamp`)
+            .addColumn('id', 'serial', (col) => col.primaryKey().notNull())
+            .addColumn('auth_id', 'text', (col) => col.notNull())
+            .addColumn('email', 'text', (col) => col.notNull())
+            .addColumn('password', 'text')
+            .addColumn('role', 'text')
+            .addColumn('refreshTokenId', 'text')
+            .addColumn('created_at', 'timestamptz', (col) =>
+                col.defaultTo(sql`now()`).notNull()
             )
             .execute()
     } catch { }
@@ -78,19 +80,12 @@ const updateUser = async (authId: string, user: UpdateUserData) => {
 // --- Refresh Token inside sqlite: No cache mode ---
 
 // Initialize token table in db
-const tokenDbInit = async (dbPath: string) => {
+const tokenDbInit = async () => {
     try {
-        const dialect = new SqliteDialect({
-            database: new Database(dbPath),
-        })
-
-        db = new Kysely<Schema>({
-            dialect,
-        })
         await db.schema.createTable('tokenStore')
-            .addColumn('id', 'integer', (cb) => cb.primaryKey().autoIncrement().notNull())
-            .addColumn('tokenId', 'varchar(50)', (cb) => cb.notNull())
-            .addColumn('token', 'varchar(100)', (cb) => cb.notNull())
+            .addColumn('id', 'serial', (col) => col.primaryKey().notNull())
+            .addColumn('tokenId', 'text', (col) => col.notNull())
+            .addColumn('token', 'text', (col) => col.notNull())
             .execute()
     } catch { }
 }

@@ -16,9 +16,9 @@ smol()
         admin: '*',
         user: [{ route: '/post', method: '*' }],
         clerk: [{ route: '/posts', method: ['GET'] }],
-        viewer: [{ route: '/posts', method: ['GET'] }]
-    }, { defaultRole: 'viewer' })
-    .execute(app, 'data2.db')
+        viewer: [{ route: '/posts', method: ['GET','POST'] }]
+    }, { defaultRole: 'admin' })
+    .execute(app, 'postgres://user:pass@localhost:5432/')
 
 app.get('/', (_: Request, res: Response) => {
     res.json({ status: 'running' });
