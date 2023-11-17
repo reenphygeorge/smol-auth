@@ -20,7 +20,16 @@ export const signupHelper = async (req: Request, res: Response, useCache: boolea
             // Store refresh token in db
             refreshTokenId = await createNewToken(refreshToken);
         createUser({ auth_id: authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId });
-        return res.json({ success: true, accessToken, refreshTokenId });
+
+        // Setup cookie with tokens
+        const cookieValue = { accessToken, refreshTokenId }
+        res.cookie('authData', JSON.stringify(cookieValue), {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(Date.now() + 86400000),
+            path: '/',
+        });
+        return res.json({ success: true });
     }
     return res.status(403).json({
         success: false,

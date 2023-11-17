@@ -31,10 +31,17 @@ services:
       - POSTGRES_PASSWORD=pass
     ports:
       - 5432:5432
+  nocodb: 
+    image: "nocodb/nocodb:latest"
+    ports:
+      - "8080:8080"
+    restart: always
+    volumes:
+      - "nc_data:/usr/app/data"
   # core:
   #   build:
   #     context: .
-  #     dockerfile: Dockerfile
+  #     dockerfile: Dockerfile.dev
   #   depends_on:
   #     redis:
   #       condition: service_healthy

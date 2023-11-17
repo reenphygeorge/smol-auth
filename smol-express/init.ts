@@ -1,4 +1,6 @@
 import { Application } from "express";
+import cookieParser from 'cookie-parser';
+import cors from 'cors'
 import { cacheInit, tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules } from "../smol-core";
 import { injectNoCacheRoutes, injectRbacRoutes, injectRoutes } from ".";
 
@@ -22,6 +24,13 @@ class SmolAuth {
     }
 
     execute(app: Application, userdbPath: string): void {
+        // Initialize cookie parser and cors
+        app.use(cookieParser())
+        app.use(cors({
+            origin: 'http://localhost:3000',
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
+            credentials: true,
+        }))
         // User & Auth Data 
         userDbInit(userdbPath);
         if (this.__cacheInitialized)

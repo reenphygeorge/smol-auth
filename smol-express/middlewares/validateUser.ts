@@ -4,10 +4,11 @@ import { Methods, getUser, __rbacRules } from "../../smol-core";
 
 // Middleware to validate users (protected user)
 export const validateUser = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    // Retrieving auth headers and separate id from it.
+    const authCookie = JSON.parse(req.cookies.authData);
+    const accessToken = authCookie && authCookie.accessToken
 
-    if (token === null) {
+    if (accessToken === null) {
         return res.status(403).json({
             success: false,
             message: 'Token Missing'
@@ -15,7 +16,7 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
     }
 
     // Verify the access token
-    verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
+    verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
         if (err) {
             if (err instanceof TokenExpiredError) {
                 return res.status(403).json({ success: false, message: 'Token Expired' });

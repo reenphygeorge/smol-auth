@@ -28,7 +28,16 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
 
             // Update user with the new refresh token
             await updateRefreshTokenId(auth_id, refreshTokenId)
-            return res.json({ success: true, accessToken, refreshTokenId })
+
+            // Setup cookie with tokens
+            const cookieValue = { accessToken, refreshTokenId }
+            res.cookie('authData', JSON.stringify(cookieValue), {
+                httpOnly: true,
+                secure: true,
+                expires: new Date(Date.now() + 86400000),
+                path: '/',
+            });
+            return res.json({ success: true })
         }
         return res.status(403).json({
             success: false,

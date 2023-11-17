@@ -3,8 +3,9 @@ import { JwtPayload, verify } from "jsonwebtoken"
 import { getTokenByIdCache, getTokenById, generateAccessToken } from "../../smol-core"
 
 export const refreshTokenHelper = async (req: Request, res: Response, useCache: boolean) => {
-    const authHeader = req.headers['authorization']
-    const refreshTokenId = authHeader && authHeader.split(' ')[1]
+    // Retrieving auth cookie and separate id from it.
+    const authCookie = JSON.parse(req.cookies.authData);
+    const refreshTokenId = authCookie && authCookie.refreshTokenId
     if (!refreshTokenId) return res.status(403).json({
         success: false,
         message: 'Token Missing'
@@ -26,6 +27,13 @@ export const refreshTokenHelper = async (req: Request, res: Response, useCache: 
         })
         const tokenData = { authId: parsedData.authId, role: parsedData.role }
         const accessToken = generateAccessToken(tokenData)
-        return res.json({ success: true, accessToken })
+        const cookieValue = { accessToken, refreshTokenId }
+        res.cookie('authData', JSON.stringify(cookieValue), {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(Date.now() + 86400000),
+            path: '/',
+        });
+        return res.json({ success: true })
     })
 }

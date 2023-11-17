@@ -3,9 +3,9 @@ import { JwtPayload, verify } from "jsonwebtoken"
 import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache } from "../../smol-core"
 
 export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {
-    // Retrieving auth headers and separate id from it.
-    const authHeader = req.headers['authorization']
-    const refreshTokenId = authHeader && authHeader.split(' ')[1]
+    // Retrieving auth cookie and separate id from it.
+    const authCookie = JSON.parse(req.cookies.authData);
+    const refreshTokenId = authCookie && authCookie.refreshTokenId
     if (!refreshTokenId) return res.status(403).json({
         success: false,
         message: 'Token Missing'
@@ -30,6 +30,8 @@ export const signoutHelper = async (req: Request, res: Response, useCache: boole
             removeToken(refreshTokenId)
         // Remove refresh token from db
         updateRefreshTokenId(parsedData.authId, '')
+        // Remove auth cookie from client
+        res.clearCookie('authData')
         return res.json({ "success": true, message: 'bye' })
     })
 }

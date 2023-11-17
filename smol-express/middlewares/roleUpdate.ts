@@ -11,10 +11,11 @@ export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
             message: 'Illegal Role'
         })
 
-    // Get authId from headers and handle errors
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
+    // Retrieving auth headers and separate id from it.
+    const authCookie = JSON.parse(req.cookies.authData);
+    const accessToken = authCookie && authCookie.accessToken
+
+    verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
         if (err) {
             if (err instanceof TokenExpiredError) {
                 return res.status(403).json({ success: false, message: 'Token Expired' });
@@ -37,6 +38,13 @@ export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
         const refreshToken = generateRefreshToken({ authId, role })
         const refreshTokenId = await updateRefreshTokenId(authId, refreshToken)
         await updateUser(authId, data)
-        return res.json({ success: true, accessToken, refreshToken: refreshTokenId, message: `Role updated to ${data.role}` })
+        const cookieValue = { accessToken, refreshTokenId }
+        res.cookie('authData', JSON.stringify(cookieValue), {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(Date.now() + 86400000),
+            path: '/',
+        });
+        return res.json({ success: true, message: `Role updated to ${data.role}` })
     })
 }
