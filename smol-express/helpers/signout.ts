@@ -28,10 +28,10 @@ export const signoutHelper = async (req: Request, res: Response, useCache: boole
         else
             // Removing refresh token from db
             removeToken(refreshTokenId)
+        // Get current user's refreshTokens from db and filter the current token
         let refreshTokenIdList = JSON.parse((await getUser(parsedData.authId)).refreshTokenId)
-        console.log(refreshTokenIdList);
-
         refreshTokenIdList = refreshTokenIdList.filter((tokenId: string) => tokenId !== refreshTokenId);
+
         // Remove refresh token from db
         updateRefreshTokenId(parsedData.authId, JSON.stringify(refreshTokenIdList))
         // Remove auth cookie from client
