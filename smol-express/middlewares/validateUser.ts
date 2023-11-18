@@ -33,7 +33,7 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
                 // error with refresh token -> clear cookie and will signout user
                 if (!success) {
                     res.clearCookie('authData')
-                    return res.status(403).json({ success: false, message: 'Refresh Token Error' });
+                    return res.status(403).json({ success: false, message: 'Token Error' });
                 }
 
                 __authId = authId
@@ -50,7 +50,7 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
             } else {
                 // Some other error with token -> signout user
                 res.clearCookie('authData')
-                return res.status(403).json({ success: false, message: 'Validation Error' });
+                return res.status(403).json({ success: false, message: 'Token Error' });
             }
         }
         else {

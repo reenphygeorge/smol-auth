@@ -36,6 +36,6 @@ export const signoutHelper = async (req: Request, res: Response, useCache: boole
         updateRefreshTokenId(parsedData.authId, JSON.stringify(refreshTokenIdList))
         // Remove auth cookie from client
         res.clearCookie('authData')
-        return res.json({ "success": true, message: 'bye' })
+        return res.json({ "success": true, message: 'Goodbye!' })
     })
 }

@@ -43,7 +43,7 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
                 expires: new Date(Date.now() + 86400000),
                 path: '/',
             });
-            return res.json({ success: true })
+            return res.json({ success: true, message: 'Welcome Back!' })
         }
         return res.status(403).json({
             success: false,
