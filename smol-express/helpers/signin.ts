@@ -15,10 +15,14 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
                 authId: auth_id,
                 role
             }
+
             // Generate new tokens with the id & role
             const accessToken = generateAccessToken(tokenData)
             const refreshToken = generateRefreshToken(tokenData)
-            let refreshTokenId: string;
+
+            // Get refreshToken list from db
+            let refreshTokenIdList: string[] = JSON.parse(userData.refreshTokenId)
+            let refreshTokenId: string
             if (useCache)
                 // caching the refresh token in redis
                 refreshTokenId = await createNewTokenCache(refreshToken);
@@ -26,8 +30,10 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
                 // Store refresh token in db
                 refreshTokenId = await createNewToken(refreshToken);
 
+            // Append new refreshtoken to list
+            refreshTokenIdList.push(refreshTokenId)
             // Update user with the new refresh token
-            await updateRefreshTokenId(auth_id, refreshTokenId)
+            await updateRefreshTokenId(auth_id, JSON.stringify(refreshTokenIdList))
 
             // Setup cookie with tokens
             const cookieValue = { accessToken, refreshTokenId }

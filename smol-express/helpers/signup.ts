@@ -12,6 +12,8 @@ export const signupHelper = async (req: Request, res: Response, useCache: boolea
         const encryptedPassword: string = await hash(password, 10);
         const accessToken = generateAccessToken(tokenData);
         const refreshToken = generateRefreshToken(tokenData);
+
+        let refreshTokenIdList: string[] = []
         let refreshTokenId: string;
         if (useCache)
             // caching the refresh token in redis
@@ -19,7 +21,8 @@ export const signupHelper = async (req: Request, res: Response, useCache: boolea
         else
             // Store refresh token in db
             refreshTokenId = await createNewToken(refreshToken);
-        createUser({ auth_id: authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId });
+        refreshTokenIdList.push(refreshTokenId)
+        createUser({ auth_id: authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId: JSON.stringify(refreshTokenIdList) });
 
         // Setup cookie with tokens
         const cookieValue = { accessToken, refreshTokenId }

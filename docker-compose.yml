@@ -23,15 +23,16 @@ services:
       - redis_insight_volume_data:/db
   db:
     image: postgres:latest
-    container_name: smol-db
-    volumes:
-      - ./tmp/pg:/var/lib/postgresql/data
+    container_name: mypostgres
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: smol
     ports:
-      - 5432:5432
-  nocodb: 
+      - "5432:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+  nocodb:
     image: "nocodb/nocodb:latest"
     ports:
       - "8080:8080"

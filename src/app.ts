@@ -18,7 +18,7 @@ smol()
         clerk: [{ route: '/posts', method: ['GET'] }],
         viewer: [{ route: '/posts', method: ['GET','POST'] }]
     }, { defaultRole: 'admin' })
-    .execute(app, 'postgres://user:pass@localhost:5432/')
+    .execute(app, 'postgres://user:pass@localhost:5432/smol')
 
 app.get('/', (_: Request, res: Response) => {
     res.json({ status: 'running' });
