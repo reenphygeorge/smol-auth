@@ -1,14 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
 import { Methods, getUser, __rbacRules } from "../../smol-core";
+import { refreshTokenHelper } from "../helpers/refreshToken";
 
 // Middleware to validate users (protected user)
 export const validateUser = (req: Request, res: Response, next: NextFunction) => {
     // Retrieving auth headers and separate id from it.
     const authCookie = JSON.parse(req.cookies.authData);
     const accessToken = authCookie && authCookie.accessToken
+    const refreshTokenId = authCookie && authCookie.refreshTokenId
 
-    if (accessToken === null) {
+    // Throw if tokens are missing
+    if (!accessToken || !refreshTokenId) {
         return res.status(403).json({
             success: false,
             message: 'Token Missing'
@@ -17,23 +20,65 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
 
     // Verify the access token
     verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
+
+        // Global token datas
+        let __authId: string
+        let __role: string
+
         if (err) {
+            // Access token expired -> Generate new token with the provided refresh token and pass it via cookie
             if (err instanceof TokenExpiredError) {
-                return res.status(403).json({ success: false, message: 'Token Expired' });
+                // get updated cookie with new access token after verification 
+                const { success, cookieValue, authId, role } = await refreshTokenHelper(refreshTokenId)
+                // error with refresh token -> clear cookie and will signout user
+                if (!success) {
+                    res.clearCookie('authData')
+                    return res.status(403).json({ success: false, message: 'Refresh Token Error' });
+                }
+
+                __authId = authId
+                __role = role
+
+                // generate cookie with the provided data
+                res.cookie('authData', JSON.stringify(cookieValue), {
+                    httpOnly: true,
+                    secure: true,
+                    expires: new Date(Date.now() + 86400000),
+                    path: '/',
+                });
+
             } else {
+                // Some other error with token -> signout user
+                res.clearCookie('authData')
                 return res.status(403).json({ success: false, message: 'Validation Error' });
             }
         }
-        const { authId, role } = parsedData
-        const { email } = (await getUser(authId))
+        else {
+            // Update with values parsed from access token
+            __authId = parsedData.authId
+            __role = parsedData.role
+        }
+
+        // Permission checking
+        const data = await getUser(__authId)
+        if (!data) {
+            // user data not found -> Signouts user
+            res.clearCookie('authData')
+            return res.status(403).json({
+                success: false,
+                message: 'Auth Token Error'
+            })
+        }
+        
+        const { email } = data
         const route = req.path;
         const method = req.method as Methods;
 
         // For RBAC Projects
         if (__rbacRules) {
             // Checks for rules and adds the current user's email to body for query purposes
-            if (__rbacRules.hasOwnProperty(role)) {
-                const roleRules = __rbacRules[role];
+            if (__rbacRules.hasOwnProperty(__role)) {
+                const roleRules = __rbacRules[__role];
                 if (roleRules === '*') {
                     req.body.email = email;
                     next();

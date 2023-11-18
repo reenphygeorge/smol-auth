@@ -1,39 +1,35 @@
-import { Request, Response } from "express"
 import { JwtPayload, verify } from "jsonwebtoken"
-import { getTokenByIdCache, getTokenById, generateAccessToken } from "../../smol-core"
+import { getTokenByIdCache, getTokenById, generateAccessToken, RefreshTokenCookie } from "../../smol-core"
 
-export const refreshTokenHelper = async (req: Request, res: Response, useCache: boolean) => {
-    // Retrieving auth cookie and separate id from it.
-    const authCookie = JSON.parse(req.cookies.authData);
-    const refreshTokenId = authCookie && authCookie.refreshTokenId
-    if (!refreshTokenId) return res.status(403).json({
-        success: false,
-        message: 'Token Missing'
-    })
+export const refreshTokenHelper = async (refreshTokenId: string): Promise<RefreshTokenCookie> => {
 
     let refreshToken: string
-    if (useCache)
-        // Cross check tokens with the ones in cache
-        refreshToken = await getTokenByIdCache(refreshTokenId)
-    else {
+    let refreshTokenCookie: RefreshTokenCookie
+
+    // Cross check tokens with the ones in cache
+    refreshToken = await getTokenByIdCache(refreshTokenId)
+
+    if (!refreshToken)
         // Cross check tokens with the ones in db
         refreshToken = (await getTokenById(refreshTokenId)).token
-    }
 
     verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, parsedData: JwtPayload) => {
-        if (err) return res.status(403).json({
+
+        // Error return value
+        if (err) refreshTokenCookie = {
             success: false,
-            message: 'Refresh Token Error'
-        })
-        const tokenData = { authId: parsedData.authId, role: parsedData.role }
-        const accessToken = generateAccessToken(tokenData)
-        const cookieValue = { accessToken, refreshTokenId }
-        res.cookie('authData', JSON.stringify(cookieValue), {
-            httpOnly: true,
-            secure: true,
-            expires: new Date(Date.now() + 86400000),
-            path: '/',
-        });
-        return res.json({ success: true })
+            cookieValue: '',
+            authId: '',
+            role: ''
+        }
+
+        // cookie data
+        else {
+            const tokenData = { authId: parsedData.authId, role: parsedData.role }
+            const accessToken = generateAccessToken(tokenData)
+            const cookieValue = JSON.stringify({ accessToken, refreshTokenId })
+            refreshTokenCookie = { success: true, cookieValue, ...tokenData }
+        }
     })
+    return refreshTokenCookie
 }

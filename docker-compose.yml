@@ -37,7 +37,7 @@ services:
       - "8080:8080"
     restart: always
     volumes:
-      - "nc_data:/usr/app/data"
+      - "./nc_data:/usr/app/data"
   # core:
   #   build:
   #     context: .

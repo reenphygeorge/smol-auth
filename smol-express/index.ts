@@ -1,4 +1,4 @@
-import { signup, signupNoCache, signin, signinNoCache, refreshToken, refreshTokenNoCache, signout, signoutNoCache } from './middlewares/userActivity'
+import { signup, signupNoCache, signin, signinNoCache, signout, signoutNoCache } from './middlewares/userActivity'
 import { smol } from './init'
 import { refreshTokenHelper } from './helpers/refreshToken'
 import { roleUpdater } from './middlewares/roleUpdate'
@@ -13,8 +13,6 @@ export {
     signupNoCache,
     signin,
     signinNoCache,
-    refreshToken,
-    refreshTokenNoCache,
     signout,
     signoutNoCache,
     roleUpdater,

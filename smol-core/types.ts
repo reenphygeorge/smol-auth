@@ -51,6 +51,13 @@ type DefaultRole = {
 
 type Methods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
 
+type RefreshTokenCookie = {
+    success: boolean;
+    cookieValue: string;
+    authId: string;
+    role: string;
+}
+
 export {
     Schema,
     User,
@@ -64,5 +71,6 @@ export {
     RbacRules,
     RouteSpec,
     DefaultRole,
-    Methods
+    Methods,
+    RefreshTokenCookie
 }
