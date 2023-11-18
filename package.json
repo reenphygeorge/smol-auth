@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smoll-auth.git"
+    "url": "git+https://github.com/reenphygeorge/smol-auth.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/reenphygeorge/smoll-auth/issues"
+    "url": "https://github.com/reenphygeorge/smol-auth/issues"
   },
-  "homepage": "https://github.com/reenphygeorge/smoll-auth#readme",
+  "homepage": "https://github.com/reenphygeorge/smol-auth#readme",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.5",
     "@types/better-sqlite3": "^7.6.6",
