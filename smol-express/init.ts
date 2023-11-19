@@ -1,11 +1,17 @@
 import { Application } from "express";
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
-import { cacheInit, tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules } from "../smol-core";
+import { cacheInit, tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules, SmolConfig } from "../smol-core";
 import { injectNoCacheRoutes, injectRbacRoutes, injectRoutes } from ".";
 
+// Global config to be used in all other parts where envs are required 
+let globalConfig: SmolConfig = {
+    accessTokenSecret: '',
+    clientDomain: '',
+    connectionUrl: '',
+    refreshTokenSecret: ''
+};
 class SmolAuth {
-
     public __cacheInitialized: boolean = false;
     public __rbacInitialized: boolean = false;
 
@@ -23,16 +29,17 @@ class SmolAuth {
         return this;
     }
 
-    execute(app: Application, userdbPath: string): void {
+    execute(app: Application, smolConfig: SmolConfig): void {
+        globalConfig = smolConfig;
         // Initialize cookie parser and cors
         app.use(cookieParser())
         app.use(cors({
-            origin: 'http://localhost:3000',
-            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allow these HTTP methods
+            origin: `http://${smolConfig.clientDomain}`,
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             credentials: true,
         }))
         // User & Auth Data 
-        userDbInit(userdbPath);
+        userDbInit(smolConfig.connectionUrl);
         if (this.__cacheInitialized)
             injectRoutes(app)
         else {
@@ -50,4 +57,4 @@ const smol = (): SmolAuth => {
     return new SmolAuth();
 };
 
-export { smol }
+export { smol, globalConfig }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
 import { Methods, getUser, __rbacRules } from "../../smol-core";
-import { refreshTokenHelper } from "../helpers/refreshToken";
+import { refreshTokenHelper, globalConfig } from "..";
 
 // Middleware to validate users (protected user)
 export const validateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -19,7 +19,7 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
     }
 
     // Verify the access token
-    verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
+    verify(accessToken, globalConfig.accessTokenSecret, async (err, parsedData: JwtPayload) => {
 
         // Global token datas
         let __authId: string
@@ -69,7 +69,7 @@ export const validateUser = (req: Request, res: Response, next: NextFunction) =>
                 message: 'Auth Token Error'
             })
         }
-        
+
         const { email } = data
         const route = req.path;
         const method = req.method as Methods;

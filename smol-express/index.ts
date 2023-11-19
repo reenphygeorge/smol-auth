@@ -1,5 +1,5 @@
 import { signup, signupNoCache, signin, signinNoCache, signout, signoutNoCache } from './middlewares/userActivity'
-import { smol } from './init'
+import { globalConfig, smol } from './init'
 import { refreshTokenHelper } from './helpers/refreshToken'
 import { roleUpdater } from './middlewares/roleUpdate'
 import { injectRoutes, injectNoCacheRoutes, injectRbacRoutes } from './helpers/routeInjecter'
@@ -24,5 +24,6 @@ export {
     signinHelper,
     signupHelper,
     signoutHelper,
-    validateUser
+    validateUser,
+    globalConfig
 }

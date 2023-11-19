@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { JwtPayload, verify } from "jsonwebtoken"
 import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache, getUser } from "../../smol-core"
+import { globalConfig } from "..";
 
 export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {
     // Retrieving auth cookie and separate id from it.
@@ -17,7 +18,7 @@ export const signoutHelper = async (req: Request, res: Response, useCache: boole
     else
         refreshToken = (await getTokenById(refreshTokenId)).token
     // Verify the jwt token
-    verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
+    verify(refreshToken, globalConfig.refreshTokenSecret, async (err, parsedData: JwtPayload) => {
         if (err) return res.status(403).json({
             success: false,
             message: 'Refresh Token Error'

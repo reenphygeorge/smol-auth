@@ -1,24 +1,31 @@
 import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import posts from './data';
-
 import { smol } from '../smol-express';
 import { validateUser } from '../smol-express';
+import { SmolConfig } from '../smol-core';
 
 const app: Application = express();
 
 dotenv.config();
 app.use(express.json());
 
+const smolConfig: SmolConfig = {
+    connectionUrl: process.env.DB_URL,
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+    clientDomain: process.env.WEBSITE_DOMAIN
+}
+
 smol()
-    .addCache('redis://:@localhost:6379')
+    .addCache(process.env.REDIS_URL)
     .addRoles({
         admin: '*',
         user: [{ route: '/post', method: '*' }],
         clerk: [{ route: '/posts', method: ['GET'] }],
-        viewer: [{ route: '/posts', method: ['GET','POST'] }]
+        viewer: [{ route: '/posts', method: ['GET', 'POST'] }]
     }, { defaultRole: 'admin' })
-    .execute(app, 'postgres://user:pass@localhost:5432/smol')
+    .execute(app, smolConfig)
 
 app.get('/', (_: Request, res: Response) => {
     res.json({ status: 'running' });

@@ -1,6 +1,8 @@
+import { __apiDomain } from ".";
+
 export const roleUpgrade = async (role: string) => {
     try {
-        const response = await fetch('http://localhost:8000/updateRole', {
+        const response = await fetch(`http://${__apiDomain}/updateRole`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

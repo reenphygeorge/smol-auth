@@ -1,6 +1,8 @@
+import { __apiDomain } from ".";
+
 export const signup = async (email: string, password: string) => {
     try {
-        const response = await fetch('http://localhost:8000/signup', {
+        const response = await fetch(`http://${__apiDomain}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

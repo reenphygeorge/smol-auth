@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
 import { getUser, updateRefreshTokenId, updateUser, generateAccessToken, generateRefreshToken, __rbacRules } from "../../smol-core";
-import { refreshTokenHelper } from "../helpers/refreshToken";
+import { refreshTokenHelper, globalConfig } from "..";
 
 export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
     // Check if given role is already configured
@@ -26,7 +26,7 @@ export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
     }
 
     // Verify the access token
-    verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, parsedData: JwtPayload) => {
+    verify(accessToken, globalConfig.accessTokenSecret, async (err, parsedData: JwtPayload) => {
 
         // Global token data
         let __authId: string

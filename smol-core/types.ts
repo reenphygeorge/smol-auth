@@ -58,6 +58,13 @@ type RefreshTokenCookie = {
     role: string;
 }
 
+type SmolConfig = {
+    connectionUrl: string;
+    accessTokenSecret: string;
+    refreshTokenSecret: string;
+    clientDomain: string;
+}
+
 export {
     Schema,
     User,
@@ -72,5 +79,6 @@ export {
     RouteSpec,
     DefaultRole,
     Methods,
-    RefreshTokenCookie
+    RefreshTokenCookie,
+    SmolConfig
 }

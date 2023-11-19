@@ -1,5 +1,6 @@
 import { JwtPayload, verify } from "jsonwebtoken"
 import { getTokenByIdCache, getTokenById, generateAccessToken, RefreshTokenCookie } from "../../smol-core"
+import { globalConfig } from ".."
 
 export const refreshTokenHelper = async (refreshTokenId: string): Promise<RefreshTokenCookie> => {
 
@@ -13,7 +14,7 @@ export const refreshTokenHelper = async (refreshTokenId: string): Promise<Refres
         // Cross check tokens with the ones in db
         refreshToken = (await getTokenById(refreshTokenId)).token
 
-    verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, parsedData: JwtPayload) => {
+    verify(refreshToken, globalConfig.refreshTokenSecret, (err, parsedData: JwtPayload) => {
 
         // Error return value
         if (err) refreshTokenCookie = {

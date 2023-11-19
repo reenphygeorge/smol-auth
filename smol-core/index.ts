@@ -2,7 +2,7 @@ import { userDbInit, tokenDbInit, createUser, getUserByEmail, updateRefreshToken
 import { generateAccessToken, generateRefreshToken } from './auth';
 import { createNewTokenCache, removeTokenCache, cacheInit, getTokenByIdCache } from './caching';
 import { rbacInit, __rbacRules, __defaultRole } from './rbac'
-import { Schema, User, TokenStore, NewUser, UpdateUserData, ViewUser, NewToken, ViewToken, TokenData, RbacRules, RouteSpec, DefaultRole, Methods, RefreshTokenCookie } from './types'
+import { Schema, User, TokenStore, NewUser, UpdateUserData, ViewUser, NewToken, ViewToken, TokenData, RbacRules, RouteSpec, DefaultRole, Methods, RefreshTokenCookie, SmolConfig } from './types'
 
 
 export {
@@ -38,5 +38,6 @@ export {
     RouteSpec,
     DefaultRole,
     Methods,
-    RefreshTokenCookie
+    RefreshTokenCookie,
+    SmolConfig
 }

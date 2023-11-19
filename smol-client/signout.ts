@@ -1,6 +1,8 @@
+import { __apiDomain } from ".";
+
 export const signout = async () => {
     try {
-        const response = await fetch('http://localhost:8000/signout', {
+        const response = await fetch(`http://${__apiDomain}/signout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,18 +1,19 @@
 import { sign } from 'jsonwebtoken';
 import { TokenData } from '.';
+import { globalConfig } from '../smol-express';
 
 const generateAccessToken = (tokenData: TokenData) => {
     try {
-        return sign(tokenData, process.env.ACCESS_TOKEN_SECRET, {
+        return sign(tokenData, globalConfig.accessTokenSecret, {
             expiresIn: '30m'
         })
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
     }
 }
 
 const generateRefreshToken = (tokenData: TokenData) => {
-    return sign(tokenData, process.env.REFRESH_TOKEN_SECRET, {
+    return sign(tokenData, globalConfig.refreshTokenSecret, {
         expiresIn: '3d'
     })
 }
