@@ -1,16 +1,15 @@
 import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import posts from './data';
-import { smol } from '../smol-express';
-import { validateUser } from '../smol-express';
-import { SmolConfig } from '../smol-core';
+import { validateUser, smol } from '../lib/smol-express';
+// import { SmolConfig } from '../lib/smol-core';
 
 const app: Application = express();
 
 dotenv.config();
 app.use(express.json());
 
-const smolConfig: SmolConfig = {
+const smolConfig = {
     connectionUrl: process.env.DB_URL,
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
@@ -21,7 +20,7 @@ smol()
     .addCache(process.env.REDIS_URL)
     .addRoles({
         admin: '*',
-        user: [{ route: '/post', method: '*' }],
+        user: [{ route: '/posts', method: '*' }],
         clerk: [{ route: '/posts', method: ['GET'] }],
         viewer: [{ route: '/posts', method: ['GET', 'POST'] }]
     }, { defaultRole: 'admin' })

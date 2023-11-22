@@ -1,6 +1,4 @@
-/node_modules
-.env
-/frontend
-/src
-/nc_data
-/pg_data
+node_modules
+nc_data
+pg_data
+/lib

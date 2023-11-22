@@ -1,0 +1,16 @@
+{
+  "name": "smol-auth-client",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-client"
+  },
+  "keywords": [],
+  "author": "Reenphy George",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reenphygeorge/smol-auth/issues"
+  },
+  "homepage": "https://github.com/reenphygeorge/smol-auth#readme"
+}

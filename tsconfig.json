@@ -5,8 +5,13 @@
         "target": "ES2017",
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": "dist"
+        "outDir": "lib"
     },
+    "exclude": [
+        "api-example",
+        "node_modules"
+    ],
+    "include": ["**/*.ts", "package.json"],
     "lib": [
         "es2015"
     ]

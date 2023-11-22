@@ -1,6 +1,6 @@
 const posts = [
     {
-        email: 'sama3@gmail.com',
+        email: 'sonu@tate.com',
         title: 'Title1'
     }
 ]

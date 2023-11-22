@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "nodemon src/app.ts",
-    "build": "tsc",
-    "run": "pnpm build && node src/app.js"
+    "build": "tsc && pnpm pkg-copy && pnpm pkg-install",
+    "pkg-copy": "cp smol-core/package.json lib/smol-core && cp smol-express/package.json lib/smol-express",
+    "pkg-install": "cd lib/smol-core && pnpm install && cd ../smol-express && pnpm install",
+    "start-example": "cd api-example && pnpm install && concurrently \"pnpm docker:start\" \"pnpm dev\""
   },
   "repository": {
     "type": "git",
@@ -19,28 +20,6 @@
   },
   "homepage": "https://github.com/reenphygeorge/smol-auth#readme",
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.5",
-    "@types/better-sqlite3": "^7.6.6",
-    "@types/cookie-parser": "^1.4.6",
-    "@types/cors": "^2.8.16",
-    "@types/express": "^4.17.20",
-    "@types/jsonwebtoken": "^9.0.4",
-    "@types/node": "^20.8.7",
-    "@types/pg": "^8.10.9",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "@paralleldrive/cuid2": "^2.2.2",
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
-    "kysely": "^0.26.3",
-    "pg": "^8.11.3",
-    "redis": "^4.6.10"
+    "concurrently": "^8.2.2"
   }
 }

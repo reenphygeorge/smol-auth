@@ -1,30 +1,33 @@
 {
-  "name": "smol-auth",
+  "name": "smol-auth-api-example",
   "version": "1.0.0",
   "description": "",
+  "scripts": {
+    "dev": "nodemon app.ts",
+    "docker:start": "docker compose up",
+    "docker:stop": "docker compose down"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-core"
+    "url": "git+https://github.com/reenphygeorge/smol-auth.git"
   },
   "keywords": [],
-  "author": "Reenphy George",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/reenphygeorge/smol-auth/issues"
   },
   "homepage": "https://github.com/reenphygeorge/smol-auth#readme",
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.4",
+    "@types/express": "^4.17.20",
     "@types/node": "^20.8.7",
-    "@types/pg": "^8.10.9",
+    "docker-compose": "^0.24.3",
+    "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@paralleldrive/cuid2": "^2.2.2",
-    "jsonwebtoken": "^9.0.2",
-    "kysely": "^0.26.3",
-    "pg": "^8.11.3",
-    "redis": "^4.6.10"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
   }
 }
