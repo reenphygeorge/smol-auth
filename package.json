@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "build": "tsc src/app.ts",
+    "build": "tsc",
     "run": "pnpm build && node src/app.js"
   },
   "repository": {
