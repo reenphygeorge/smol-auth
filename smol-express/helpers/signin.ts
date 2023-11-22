@@ -1,9 +1,20 @@
 import { Request, Response } from "express"
 import { compare } from "bcryptjs"
 import { createNewToken, getUserByEmail, updateRefreshTokenId, createNewTokenCache, generateAccessToken, generateRefreshToken } from "../../smol-core"
+import { signUpOrSignInObject, roleObject } from "..";
+
 
 export const signinHelper = async (req: Request, res: Response, useCache: boolean) => {
-    const { email, password } = req.body
+    const parsedData = signUpOrSignInObject.safeParse(req.body)
+
+    if(!parsedData.success) {
+        return res.status(403).json({
+            success: false,
+            message: 'Incomplete Data'
+        });
+    }
+
+    const { email, password } = parsedData.data;
     // Check db for email 
     const userData = await getUserByEmail(email)
     if (userData) {

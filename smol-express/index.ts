@@ -7,6 +7,7 @@ import { signinHelper } from './helpers/signin'
 import { signupHelper } from './helpers/signup'
 import { signoutHelper } from './helpers/signout'
 import { validateUser } from './middlewares/validateUser'
+import { signUpOrSignInObject, roleObject } from './zod'
 
 export {
     signup,
@@ -25,5 +26,7 @@ export {
     signupHelper,
     signoutHelper,
     validateUser,
-    globalConfig
+    globalConfig,
+    signUpOrSignInObject,
+    roleObject
 }

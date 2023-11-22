@@ -5,12 +5,18 @@ import { globalConfig } from "..";
 
 export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {
     // Retrieving auth cookie and separate id from it.
-    const authCookie = JSON.parse(req.cookies.authData);
-    const refreshTokenId = authCookie && authCookie.refreshTokenId
+    const authCookie = req.cookies.authData;
+    if (!authCookie) return res.status(403).json({
+        success: false,
+        message: 'User Error'
+    })
+
+    const refreshTokenId = JSON.parse(authCookie).refreshTokenId
     if (!refreshTokenId) return res.status(403).json({
         success: false,
         message: 'Token Missing'
     })
+
     let refreshToken: string
     if (useCache)
         // Fetch refresh token from redis

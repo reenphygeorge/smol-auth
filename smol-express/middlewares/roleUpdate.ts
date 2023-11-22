@@ -1,22 +1,34 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
 import { getUser, updateRefreshTokenId, updateUser, generateAccessToken, generateRefreshToken, __rbacRules } from "../../smol-core";
-import { refreshTokenHelper, globalConfig } from "..";
+import { refreshTokenHelper, globalConfig, roleObject } from "..";
 
 export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
-    // Check if given role is already configured
-    const { role } = req.body
+    // Check if given role is already configured    
+    const parsedData = roleObject.safeParse(req.body)
+    if (!parsedData.success) {
+        return res.status(403).json({
+            success: false,
+            message: 'Incomplete Data'
+        });
+    }
+    const { role } = parsedData.data
     if (!__rbacRules.hasOwnProperty(role))
         return res.status(403).json({
             success: false,
             message: 'Illegal Role'
         })
 
-    // Retrieving auth headers and separate id from it.
-    const authCookie = JSON.parse(req.cookies.authData);
-    const accessToken = authCookie && authCookie.accessToken
-    const cookieRefreshTokenId = authCookie && authCookie.refreshTokenId
+    const authCookie = req.cookies.authData;
+    if (!authCookie) return res.status(403).json({
+        success: false,
+        message: 'User Error'
+    })
 
+    const parsedCookie = JSON.parse(authCookie) 
+    // Retrieving auth headers and separate id from it.
+    const accessToken = parsedCookie.accessToken
+    const cookieRefreshTokenId = parsedCookie.refreshTokenId
     // Throw if tokens are missing
     if (!accessToken || !cookieRefreshTokenId) {
         return res.status(403).json({

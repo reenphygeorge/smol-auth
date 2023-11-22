@@ -2,9 +2,19 @@ import { Request, Response } from "express";
 import { hash } from "bcryptjs";
 import { createId } from "@paralleldrive/cuid2";
 import { createNewToken, createUser, getUserByEmail, generateAccessToken, generateRefreshToken, createNewTokenCache, __defaultRole } from "../../smol-core";
+import { signUpOrSignInObject } from "..";
 
 export const signupHelper = async (req: Request, res: Response, useCache: boolean) => {
-    const { email, password } = req.body;
+    const parsedData = signUpOrSignInObject.safeParse(req.body)
+
+    if(!parsedData.success) {
+        return res.status(403).json({
+            success: false,
+            message: 'Incomplete Data'
+        });
+    }
+
+    const { email, password } = parsedData.data;
     if (!(await getUserByEmail(email))) {
         const authId = createId()
         // Store email and password (encrypted) in db and proceed.
