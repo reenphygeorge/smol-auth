@@ -1,6 +1,6 @@
 import { sign } from 'jsonwebtoken';
 import { TokenData } from '.';
-import { globalConfig } from '../smol-express';
+import { globalConfig } from '../smol-auth-express';
 
 const generateAccessToken = (tokenData: TokenData) => {
     try {

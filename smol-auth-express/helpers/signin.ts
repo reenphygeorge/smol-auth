@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { compare } from "bcryptjs"
-import { createNewToken, getUserByEmail, updateRefreshTokenId, createNewTokenCache, generateAccessToken, generateRefreshToken } from "../../smol-core"
+import { createNewToken, getUserByEmail, updateRefreshTokenId, createNewTokenCache, generateAccessToken, generateRefreshToken } from "../../smol-auth-core"
 import { signUpOrSignInObject, roleObject } from "..";
 
 

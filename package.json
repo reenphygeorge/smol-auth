@@ -1,12 +1,13 @@
 {
-  "name": "smol-auth",
+  "name": "smol-auth-root",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "build": "tsc && pnpm pkg-copy && pnpm pkg-install",
-    "pkg-copy": "cp smol-core/package.json lib/smol-core && cp smol-express/package.json lib/smol-express",
-    "pkg-install": "cd lib/smol-core && pnpm install && cd ../smol-express && pnpm install",
-    "start-example": "cd api-example && pnpm install && concurrently \"pnpm docker:start\" \"pnpm dev\""
+    "pkg-copy": "cp smol-auth-core/package.json lib/smol-auth-core && cp smol-auth-express/package.json lib/smol-auth-express && cp smol-auth-client/package.json lib/smol-auth-client",
+    "pkg-install": "cd lib/smol-auth-core && pnpm install --prod && npm link && cd ../smol-auth-express && pnpm install --prod && npm link",
+    "start-example:api": "cd api-example && npm install && npm link smol-auth-core && npm link smol-auth-express && concurrently \"npm run docker:start\" \"npm run dev\"",
+    "docker:stop":"cd api-example && npm run docker:stop"
   },
   "repository": {
     "type": "git",

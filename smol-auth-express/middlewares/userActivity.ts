@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { signupHelper, signinHelper, signoutHelper } from '..';
-import { __rbacRules } from '../../smol-core';
+import { __rbacRules } from '../../smol-auth-core';
 
 const signup = async (req: Request, res: Response, _: NextFunction) => {
     await signupHelper(req, res, true);

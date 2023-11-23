@@ -1,10 +1,10 @@
 {
-  "name": "smol-auth",
+  "name": "smol-auth-core",
   "version": "1.0.0",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-core"
+    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-auth-core"
   },
   "keywords": [],
   "author": "Reenphy George",

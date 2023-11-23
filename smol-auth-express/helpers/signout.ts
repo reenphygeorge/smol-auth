@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { JwtPayload, verify } from "jsonwebtoken"
-import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache, getUser } from "../../smol-core"
+import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache, getUser } from "../../smol-auth-core"
 import { globalConfig } from "..";
 
 export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {

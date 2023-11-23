@@ -2,3 +2,5 @@ node_modules
 nc_data
 pg_data
 /lib
+package-lock.json
+pnpm-lock.yaml

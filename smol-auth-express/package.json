@@ -4,7 +4,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-express"
+    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-auth-express"
   },
   "keywords": [],
   "author": "Reenphy George",

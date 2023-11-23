@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
-import { Methods, getUser, __rbacRules } from "../../smol-core";
+import { Methods, getUser, __rbacRules } from "../../smol-auth-core";
 import { refreshTokenHelper, globalConfig } from "..";
 
 // Middleware to validate users (protected user)

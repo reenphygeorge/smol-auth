@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import posts from './data';
-import { validateUser, smol } from '../lib/smol-express';
+import { validateUser, smol } from 'smol-auth-express';
 // import { SmolConfig } from '../lib/smol-core';
 
 const app: Application = express();
