@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
 import { Methods, getUser, __rbacRules } from "../../smol-auth-core";
-import { refreshTokenHelper, globalConfig } from "..";
+import { refreshTokenHelper, globalConfig } from "../index";
 
 // Middleware to validate users (protected user)
 export const validateUser = (req: Request, res: Response, next: NextFunction) => {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { JwtPayload, verify } from "jsonwebtoken"
 import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache, getUser } from "../../smol-auth-core"
-import { globalConfig } from "..";
+import { globalConfig } from "../index";
 
 export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {
     // Retrieving auth cookie and separate id from it.

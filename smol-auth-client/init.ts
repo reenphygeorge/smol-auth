@@ -1,6 +1,8 @@
+import { SmolClient } from "./types"
+
 let __apiDomain: string
 
-const smolClient = (apiDomain: string) => {
+const smolClient: SmolClient = (apiDomain: string) => {
     __apiDomain = apiDomain
 }
 

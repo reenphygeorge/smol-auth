@@ -2,7 +2,6 @@ import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import posts from './data';
 import { validateUser, smol } from 'smol-auth-express';
-// import { SmolConfig } from '../lib/smol-core';
 
 const app: Application = express();
 
@@ -10,14 +9,14 @@ dotenv.config();
 app.use(express.json());
 
 const smolConfig = {
-    connectionUrl: process.env.DB_URL,
-    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
-    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
-    clientDomain: process.env.WEBSITE_DOMAIN
+    connectionUrl: process.env.DB_URL as string,
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET as string,
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET as string,
+    clientDomain: process.env.WEBSITE_DOMAIN as string
 }
 
 smol()
-    .addCache(process.env.REDIS_URL)
+    .addCache(process.env.REDIS_URL as string)
     .addRoles({
         admin: '*',
         user: [{ route: '/posts', method: '*' }],

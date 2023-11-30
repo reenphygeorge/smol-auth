@@ -1,5 +1,5 @@
 import { Application } from "express";
-import { roleUpdater, signin, signinNoCache, signout, signoutNoCache, signup, signupNoCache } from "..";
+import { roleUpdater, signin, signinNoCache, signout, signoutNoCache, signup, signupNoCache } from "../index";
 
 const injectRoutes = (app: Application) => {
     app.post('/signup', signup);

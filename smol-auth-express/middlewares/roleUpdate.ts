@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
 import { getUser, updateRefreshTokenId, updateUser, generateAccessToken, generateRefreshToken, __rbacRules } from "../../smol-auth-core";
-import { refreshTokenHelper, globalConfig, roleObject } from "..";
+import { refreshTokenHelper, globalConfig, roleObject } from "../index";
 
 export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
     // Check if given role is already configured    
@@ -25,7 +25,7 @@ export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
         message: 'User Error'
     })
 
-    const parsedCookie = JSON.parse(authCookie) 
+    const parsedCookie = JSON.parse(authCookie)
     // Retrieving auth headers and separate id from it.
     const accessToken = parsedCookie.accessToken
     const cookieRefreshTokenId = parsedCookie.refreshTokenId

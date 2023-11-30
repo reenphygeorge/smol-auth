@@ -1,6 +1,7 @@
-import { __apiDomain } from ".";
+import { __apiDomain } from "./index";
+import { SignOut } from "./types";
 
-export const signout = async () => {
+export const signout: SignOut = async () => {
     try {
         const response = await fetch(`http://${__apiDomain}/signout`, {
             method: 'POST',

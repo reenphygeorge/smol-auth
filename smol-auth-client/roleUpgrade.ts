@@ -1,6 +1,7 @@
-import { __apiDomain } from ".";
+import { __apiDomain } from "./index";
+import { RoleUpgrade } from "./types";
 
-export const roleUpgrade = async (role: string) => {
+export const roleUpgrade: RoleUpgrade = async (role: string) => {
     try {
         const response = await fetch(`http://${__apiDomain}/updateRole`, {
             method: 'POST',

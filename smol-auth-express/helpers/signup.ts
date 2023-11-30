@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 import { hash } from "bcryptjs";
 import { createId } from "@paralleldrive/cuid2";
 import { createNewToken, createUser, getUserByEmail, generateAccessToken, generateRefreshToken, createNewTokenCache, __defaultRole } from "../../smol-auth-core";
-import { signUpOrSignInObject } from "..";
+import { signUpOrSignInObject } from "../index";
 
 export const signupHelper = async (req: Request, res: Response, useCache: boolean) => {
     const parsedData = signUpOrSignInObject.safeParse(req.body)
 
-    if(!parsedData.success) {
+    if (!parsedData.success) {
         return res.status(403).json({
             success: false,
             message: 'Incomplete Data'

@@ -1,6 +1,7 @@
-import { __apiDomain } from ".";
+import { __apiDomain } from "./index";
+import { SignIn } from "./types";
 
-export const signin = async (email: string, password: string) => {
+export const signin: SignIn = async (email: string, password: string) => {
     try {
         const response = await fetch(`http://${__apiDomain}/signin`, {
             method: 'POST',
