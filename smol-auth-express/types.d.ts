@@ -25,7 +25,7 @@ type SmolConfig = {
 declare class SmolAuth {
     public __rbacInitialized: boolean;
     addRoles(rbacRules: RbacRules, defaultRole: DefaultRole): SmolAuth;
-    execute(app: Application, smolConfig: SmolConfig): void;
+    init(app: Application, smolConfig: SmolConfig): void;
 }
 
 export const smol: () => SmolAuth;

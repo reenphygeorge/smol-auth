@@ -2,7 +2,7 @@ import { FC, FormEvent, useEffect, useState } from 'react';
 import { smolClient, signin, signup, getAuthId, signout } from 'smol-auth-client'
 
 const SignIn: FC = () => {
-  smolClient('localhost:8000')
+  smolClient(process.env.NEXT_PUBLIC_API_DOMAIN as string)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);

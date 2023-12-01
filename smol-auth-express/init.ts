@@ -21,7 +21,7 @@ class SmolAuth {
         return this;
     }
 
-    execute(app: Application, smolConfig: SmolConfig): void {
+    init(app: Application, smolConfig: SmolConfig): void {
         globalConfig = smolConfig;
         // Initialize cookie parser and cors
         app.use(cookieParser())
