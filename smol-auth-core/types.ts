@@ -8,12 +8,12 @@ interface Schema {
 
 interface User {
     id: Generated<number>;
-    auth_id: string;
+    authId: string;
     email: string;
     password: string;
     role: string;
     refreshTokenId: string;
-    created_at: ColumnType<Date, string | undefined, never>
+    createdAt: ColumnType<Date, string | undefined, never>
 }
 
 interface TokenStore {

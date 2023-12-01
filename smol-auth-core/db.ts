@@ -21,12 +21,12 @@ const userDbInit = async (connectionUrl: string) => {
         })
         await db.schema.createTable('user')
             .addColumn('id', 'serial', (col) => col.primaryKey().notNull())
-            .addColumn('auth_id', 'text', (col) => col.notNull())
+            .addColumn('authId', 'text', (col) => col.notNull())
             .addColumn('email', 'text', (col) => col.notNull())
             .addColumn('password', 'text')
             .addColumn('role', 'text')
             .addColumn('refreshTokenId', 'text')
-            .addColumn('created_at', 'timestamptz', (col) =>
+            .addColumn('createdAt', 'timestamptz', (col) =>
                 col.defaultTo(sql`now()`).notNull()
             )
             .execute()
@@ -48,7 +48,7 @@ const updateRefreshTokenId = async (authId: string, refreshTokenId: string) => {
         .set({
             refreshTokenId,
         })
-        .where('auth_id', '=', authId)
+        .where('authId', '=', authId)
         .executeTakeFirst()
 }
 
@@ -62,7 +62,7 @@ const getUserByEmail = async (email: string) => {
 
 const getUser = async (authId: string) => {
     return await db.selectFrom('user')
-        .where('auth_id', '=', authId)
+        .where('authId', '=', authId)
         .selectAll()
         .executeTakeFirst()
 }
@@ -73,7 +73,7 @@ const updateUser = async (authId: string, user: UpdateUserData) => {
         .set({
             ...user
         })
-        .where('auth_id', '=', authId)
+        .where('authId', '=', authId)
         .executeTakeFirst()
 }
 

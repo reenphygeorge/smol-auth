@@ -32,7 +32,7 @@ export const signupHelper = async (req: Request, res: Response, useCache: boolea
             // Store refresh token in db
             refreshTokenId = await createNewToken(refreshToken);
         refreshTokenIdList.push(refreshTokenId)
-        createUser({ auth_id: authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId: JSON.stringify(refreshTokenIdList) });
+        createUser({ authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId: JSON.stringify(refreshTokenIdList) });
 
         // Setup cookie with tokens
         const cookieValue = { accessToken, refreshTokenId }
@@ -42,7 +42,7 @@ export const signupHelper = async (req: Request, res: Response, useCache: boolea
             expires: new Date(Date.now() + 86400000),
             path: '/',
         });
-        return res.json({ success: true, message: 'Welcome!' });
+        return res.json({ success: true, message: 'Welcome!', authId });
     }
     return res.status(403).json({
         success: false,

@@ -7,7 +7,7 @@ import { signUpOrSignInObject, roleObject } from "../index";
 export const signinHelper = async (req: Request, res: Response, useCache: boolean) => {
     const parsedData = signUpOrSignInObject.safeParse(req.body)
 
-    if(!parsedData.success) {
+    if (!parsedData.success) {
         return res.status(403).json({
             success: false,
             message: 'Incomplete Data'
@@ -21,9 +21,9 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
         // cross check password
         if (await compare(password, userData.password)) {
             // Get data from db
-            const { role, auth_id } = (await getUserByEmail(email))
+            const { role, authId } = (await getUserByEmail(email))
             const tokenData = {
-                authId: auth_id,
+                authId,
                 role
             }
 
@@ -44,7 +44,7 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
             // Append new refreshtoken to list
             refreshTokenIdList.push(refreshTokenId)
             // Update user with the new refresh token
-            await updateRefreshTokenId(auth_id, JSON.stringify(refreshTokenIdList))
+            await updateRefreshTokenId(authId, JSON.stringify(refreshTokenIdList))
 
             // Setup cookie with tokens
             const cookieValue = { accessToken, refreshTokenId }
@@ -54,7 +54,7 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
                 expires: new Date(Date.now() + 86400000),
                 path: '/',
             });
-            return res.json({ success: true, message: 'Welcome Back!' })
+            return res.json({ success: true, message: 'Welcome Back!', authId })
         }
         return res.status(403).json({
             success: false,

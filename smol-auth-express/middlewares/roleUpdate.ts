@@ -100,6 +100,6 @@ export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
             expires: new Date(Date.now() + 86400000),
             path: '/',
         });
-        return res.json({ success: true, message: `Role updated to ${data.role}` })
+        return res.json({ success: true, message: `Role updated to ${data.role}`, authId: __authId })
     })
 }
