@@ -1,15 +1,19 @@
 {
   "name": "smol-auth-client",
   "version": "1.0.0",
-  "description": "",
+  "description": "Frontend package for seamless user auth actions using smol-auth",
   "types": "types.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-auth-client"
+    "url": "https://github.com/reenphygeorge/smol-auth/smol-auth-client"
   },
-  "keywords": [],
+  "keywords": [
+    "jwt-auth",
+    "selfhost",
+    "rbac"
+  ],
   "author": "Reenphy George",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/reenphygeorge/smol-auth/issues"
   },

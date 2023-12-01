@@ -22,6 +22,9 @@
 3. Initialize smol service
 
         import { validateUser, smol } from 'smol-auth-express';
+        import express from 'express';
+
+        const app = express();
 
         const smolConfig = {
           connectionUrl: process.env.DB_URL,

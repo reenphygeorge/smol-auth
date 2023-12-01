@@ -1,14 +1,18 @@
 {
   "name": "smol-auth-core",
   "version": "1.0.0",
-  "description": "",
+  "description": "Core smol package for JWT handling, database connections, and authentication functions",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-auth-core"
+    "url": "https://github.com/reenphygeorge/smol-auth/smol-auth-core"
   },
-  "keywords": [],
+  "keywords": [
+    "jwt-auth",
+    "selfhost",
+    "rbac"
+  ],
   "author": "Reenphy George",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/reenphygeorge/smol-auth/issues"
   },

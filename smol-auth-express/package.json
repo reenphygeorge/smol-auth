@@ -1,15 +1,19 @@
 {
   "name": "smol-auth-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express middleware for user authentication and role verification using smol-auth",
   "types": "types.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/reenphygeorge/smol-auth/smol-auth-express"
+    "url": "https://github.com/reenphygeorge/smol-auth/smol-auth-express"
   },
-  "keywords": [],
+  "keywords": [
+    "jwt-auth",
+    "selfhost",
+    "rbac"
+  ],
   "author": "Reenphy George",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/reenphygeorge/smol-auth/issues"
   },
