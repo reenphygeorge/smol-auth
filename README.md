@@ -1,21 +1,8 @@
-<br/>
 <div align="center">
-  <!-- <a href="https://github.com/reenphygeorge/smol-auth">
-    <img
-      src="assets/servette.png"
-      alt="Servette Logo"
-      height="64"
-    />
-  </a> -->
-  <br /><br />
   <p>
-    <b>
-      A smol authentication package with RBAC 🔐
-    </b>
+  <img src="https://res.cloudinary.com/rxg/image/upload/v1701412436/smol-auth/smol-removebg-preview_1_ssj3gm.png" height="150"/>
   </p>
-  <p>
-  <br/><br/>
-  <!-- <img src="assets/demo.gif" height="350"/> -->
+  <b> A smol authentication package with RBAC 🔐 </b>
 </div>
 
 ## Guide to smol
