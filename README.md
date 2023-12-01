@@ -10,7 +10,7 @@
   <br /><br />
   <p>
     <b>
-      A small authentication package with RBAC and caching 🔐
+      A small authentication package with RBAC 🔐
     </b>
   </p>
   <p>

@@ -77,7 +77,7 @@ const updateUser = async (authId: string, user: UpdateUserData) => {
         .executeTakeFirst()
 }
 
-// --- Refresh Token inside sqlite: No cache mode ---
+// --- Refresh Token Data ---
 
 // Initialize token table in db
 const tokenDbInit = async () => {

@@ -23,10 +23,7 @@ type SmolConfig = {
 };
 
 declare class SmolAuth {
-    public __cacheInitialized: boolean;
     public __rbacInitialized: boolean;
-
-    addCache(redisUrl: string): SmolAuth;
     addRoles(rbacRules: RbacRules, defaultRole: DefaultRole): SmolAuth;
     execute(app: Application, smolConfig: SmolConfig): void;
 }

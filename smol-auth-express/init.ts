@@ -1,8 +1,8 @@
 import { Application } from "express";
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
-import { cacheInit, tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules, SmolConfig } from "../smol-auth-core";
-import { injectNoCacheRoutes, injectRbacRoutes, injectRoutes } from "./index";
+import { tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules, SmolConfig } from "../smol-auth-core";
+import { injectRbacRoutes, injectRoutes } from "./index";
 
 // Global config to be used in all other parts where envs are required 
 let globalConfig: SmolConfig = {
@@ -12,15 +12,7 @@ let globalConfig: SmolConfig = {
     refreshTokenSecret: ''
 };
 class SmolAuth {
-    public __cacheInitialized: boolean = false;
     public __rbacInitialized: boolean = false;
-
-    addCache(redisUrl: string): SmolAuth {
-        this.__cacheInitialized = true;
-        // Initialize redis for caching
-        cacheInit(redisUrl);
-        return this;
-    }
 
     addRoles(rbacRules: RbacRules, defaultRole: DefaultRole): SmolAuth {
         this.__rbacInitialized = true;
@@ -40,12 +32,8 @@ class SmolAuth {
         }))
         // User & Auth Data 
         userDbInit(smolConfig.connectionUrl);
-        if (this.__cacheInitialized)
-            injectRoutes(app)
-        else {
-            tokenDbInit()
-            injectNoCacheRoutes(app)
-        }
+        tokenDbInit()
+        injectRoutes(app)
 
         // RBAC
         if (this.__rbacInitialized)

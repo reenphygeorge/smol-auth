@@ -1,9 +1,9 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { JwtPayload, verify } from "jsonwebtoken"
-import { getTokenById, removeToken, updateRefreshTokenId, getTokenByIdCache, removeTokenCache, getUser } from "../../smol-auth-core"
+import { getTokenById, removeToken, updateRefreshTokenId, getUser } from "../../smol-auth-core"
 import { globalConfig } from "../index";
 
-export const signoutHelper = async (req: Request, res: Response, useCache: boolean) => {
+export const signout = async (req: Request, res: Response, _: NextFunction) => {
     // Retrieving auth cookie and separate id from it.
     const authCookie = req.cookies.authData;
     if (!authCookie) return res.status(403).json({
@@ -18,23 +18,16 @@ export const signoutHelper = async (req: Request, res: Response, useCache: boole
     })
 
     let refreshToken: string
-    if (useCache)
-        // Fetch refresh token from redis
-        refreshToken = await getTokenByIdCache(refreshTokenId)
-    else
-        refreshToken = (await getTokenById(refreshTokenId)).token
+    // Fetch refresh token from db
+    refreshToken = (await getTokenById(refreshTokenId)).token
     // Verify the jwt token
     verify(refreshToken, globalConfig.refreshTokenSecret, async (err, parsedData: JwtPayload) => {
         if (err) return res.status(403).json({
             success: false,
             message: 'Refresh Token Error'
         })
-        if (useCache)
-            // Removing cached refresh token from redis
-            removeTokenCache(refreshTokenId)
-        else
-            // Removing refresh token from db
-            removeToken(refreshTokenId)
+        // Removing refresh token from db
+        removeToken(refreshTokenId)
         // Get current user's refreshTokens from db and filter the current token
         let refreshTokenIdList = JSON.parse((await getUser(parsedData.authId)).refreshTokenId)
         refreshTokenIdList = refreshTokenIdList.filter((tokenId: string) => tokenId !== refreshTokenId);

@@ -16,7 +16,6 @@ const smolConfig = {
 }
 
 smol()
-    .addCache(process.env.REDIS_URL as string)
     .addRoles({
         admin: '*',
         user: [{ route: '/posts', method: '*' }],

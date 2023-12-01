@@ -1,10 +1,10 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { compare } from "bcryptjs"
-import { createNewToken, getUserByEmail, updateRefreshTokenId, createNewTokenCache, generateAccessToken, generateRefreshToken } from "../../smol-auth-core"
+import { createNewToken, getUserByEmail, updateRefreshTokenId, generateAccessToken, generateRefreshToken } from "../../smol-auth-core"
 import { signUpOrSignInObject, roleObject } from "../index";
 
 
-export const signinHelper = async (req: Request, res: Response, useCache: boolean) => {
+export const signin = async (req: Request, res: Response, _: NextFunction) => {
     const parsedData = signUpOrSignInObject.safeParse(req.body)
 
     if (!parsedData.success) {
@@ -34,12 +34,8 @@ export const signinHelper = async (req: Request, res: Response, useCache: boolea
             // Get refreshToken list from db
             let refreshTokenIdList: string[] = JSON.parse(userData.refreshTokenId)
             let refreshTokenId: string
-            if (useCache)
-                // caching the refresh token in redis
-                refreshTokenId = await createNewTokenCache(refreshToken);
-            else
-                // Store refresh token in db
-                refreshTokenId = await createNewToken(refreshToken);
+            // Store refresh token in db
+            refreshTokenId = await createNewToken(refreshToken);
 
             // Append new refreshtoken to list
             refreshTokenIdList.push(refreshTokenId)
