@@ -12,7 +12,12 @@
         "node_modules",
         "client-example"
     ],
-    "include": ["**/*.ts", "package.json","types.d.ts"],
+    "include": [
+        "**/*.ts",
+        "package.json",
+        "types.d.ts",
+        "README.md"
+    ],
     "lib": [
         "es2015"
     ]
