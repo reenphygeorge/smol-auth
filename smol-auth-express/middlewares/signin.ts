@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { compare } from "bcryptjs"
-import { createNewToken, getUserByEmail, updateRefreshTokenId, generateAccessToken, generateRefreshToken } from "../../smol-auth-core"
-import { signUpOrSignInObject, roleObject } from "../index";
+import { createNewToken, getUserByEmail, updateRefreshTokenId, generateAccessToken, generateRefreshToken } from "smol-auth-core"
+import { signUpOrSignInObject } from "../index";
 
 
 export const signin = async (req: Request, res: Response, _: NextFunction) => {

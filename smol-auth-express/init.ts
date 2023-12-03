@@ -1,7 +1,7 @@
 import { Application } from "express";
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
-import { tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules, SmolConfig } from "../smol-auth-core";
+import { tokenDbInit, userDbInit, rbacInit, DefaultRole, RbacRules, SmolConfig } from "smol-auth-core";
 import { injectRbacRoutes, injectRoutes } from "./index";
 
 // Global config to be used in all other parts where envs are required 

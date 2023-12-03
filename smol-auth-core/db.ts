@@ -68,7 +68,7 @@ const getUser = async (authId: string) => {
 }
 
 const updateUser = async (authId: string, user: UpdateUserData) => {
-    return await db
+    await db
         .updateTable('user')
         .set({
             ...user

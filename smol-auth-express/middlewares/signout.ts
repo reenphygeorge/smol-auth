@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { JwtPayload, verify } from "jsonwebtoken"
-import { getTokenById, removeToken, updateRefreshTokenId, getUser } from "../../smol-auth-core"
+import { getTokenById, removeToken, updateRefreshTokenId, getUser } from "smol-auth-core"
 import { globalConfig } from "../index";
 
 export const signout = async (req: Request, res: Response, _: NextFunction) => {

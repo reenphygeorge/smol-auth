@@ -1,5 +1,5 @@
 import { JwtPayload, verify } from "jsonwebtoken"
-import { getTokenById, generateAccessToken, RefreshTokenCookie } from "../../smol-auth-core"
+import { getTokenById, generateAccessToken, RefreshTokenCookie } from "smol-auth-core"
 import { globalConfig } from "../index"
 
 export const refreshTokenHelper = async (refreshTokenId: string): Promise<RefreshTokenCookie> => {

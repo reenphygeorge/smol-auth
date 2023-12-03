@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, TokenExpiredError, verify } from "jsonwebtoken";
-import { getUser, updateRefreshTokenId, updateUser, generateAccessToken, generateRefreshToken, __rbacRules } from "../../smol-auth-core";
+import { getUser, updateRefreshTokenId, updateUser, generateAccessToken, generateRefreshToken, __rbacRules } from "smol-auth-core";
 import { refreshTokenHelper, globalConfig, roleObject } from "../index";
 
 export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {

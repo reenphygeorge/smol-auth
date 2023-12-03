@@ -13,7 +13,7 @@
 
 1. Install the packages
 
-        pnpm add smol-auth-core smol-auth-express
+        npm i smol-auth-express
 
 2. Setup an env file with accessToken & RefreshToken secrets which are long strings. You can generate it by running the following commands:
 
@@ -63,7 +63,7 @@
 
 1. Install the packages
 
-        pnpm add smol-auth-client
+        npm i smol-auth-client
 
 2. Initialize smolClient
 
@@ -92,19 +92,19 @@
 
 2. Install all required packages
 
-        pnpm install:all
+        npm run install:all
 
 3. Build smol-packages
 
-        pnpm build
+        npm run build
 
 4. Start Example API Service
 
-        pnpm start-example:api
+        npm run start-example:api
 
 5. Start Example Client Service
 
-        pnpm start-example:client
+        npm run start-example:client
 
 6. Connect [NocoDB]('https://docs.nocodb.com/data-sources/connect-to-data-source/') to the auth db for dashboard
 
@@ -112,4 +112,4 @@
 
 7. To stop docker containers after exit
 
-        pnpm docker:stop
+        npm run docker:stop

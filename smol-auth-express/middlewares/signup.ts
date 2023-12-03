@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { hash } from "bcryptjs";
 import { createId } from "@paralleldrive/cuid2";
-import { createNewToken, createUser, getUserByEmail, generateAccessToken, generateRefreshToken, __defaultRole } from "../../smol-auth-core";
+import { createNewToken, createUser, getUserByEmail, generateAccessToken, generateRefreshToken, __defaultRole } from "smol-auth-core";
 import { signUpOrSignInObject } from "../index";
 
 export const signup = async (req: Request, res: Response, _: NextFunction) => {
