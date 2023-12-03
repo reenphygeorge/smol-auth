@@ -12,7 +12,8 @@ export const signout: SignOut = async () => {
         });
 
         const data = await response.json();
-        localStorage.removeItem('smolAuthId')
+        if (data.success)
+            localStorage.removeItem('smolAuthId')
         return data
     }
     catch (error: any) {

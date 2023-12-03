@@ -13,7 +13,8 @@ export const signup: SignUp = async (email: string, password: string) => {
         });
 
         const data = await response.json();
-        localStorage.setItem('smolAuthId', data.authId)
+        if (data.success)
+            localStorage.setItem('smolAuthId', data.authId)
         return data
     }
     catch (error: any) {
