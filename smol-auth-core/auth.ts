@@ -14,7 +14,7 @@ const generateAccessToken = (tokenData: TokenData) => {
 
 const generateRefreshToken = (tokenData: TokenData) => {
     return sign(tokenData, globalConfig.refreshTokenSecret, {
-        expiresIn: '3d'
+        expiresIn: '7d'
     })
 }
 
