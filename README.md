@@ -67,9 +67,21 @@
 
 2. Initialize smolClient
 
-        import { validateUser, smol } from 'smol-auth-express';
+        import { smolClient } from 'smol-auth-client'
 
         smolClient(process.env.API_DOMAIN)
+
+3. Use the corresponding functions
+
+        import { signin, signup, getAuthId, signout } from 'smol-auth-client'
+        
+        const signupData = await signup(email, password)
+
+        const signinData = await signin(email, password)
+        
+        const authId = await getAuthId()
+        
+        await signout()
 
 
 #### Try with our example app
@@ -78,9 +90,9 @@
 
         git clone https://github.com/reenphygeorge/smol-auth
 
-2. Install Root Packages
+2. Install all required packages
 
-        pnpm install
+        pnpm install:all
 
 3. Build smol-packages
 
