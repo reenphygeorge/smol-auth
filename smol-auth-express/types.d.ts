@@ -22,6 +22,25 @@ type SmolConfig = {
     clientDomain: string;
 };
 
+type UserDataResponse = {
+    success: boolean;
+    data?: UserData;
+}
+
+type UserData = {
+    email: string;
+    password: string;
+}
+
+type RoleDataResponse = {
+    success: boolean;
+    data?: RoleData;
+}
+
+type RoleData = {
+    role: string
+}
+
 declare class SmolAuth {
     public __rbacInitialized: boolean;
     addRoles(rbacRules: RbacRules, defaultRole: DefaultRole): SmolAuth;

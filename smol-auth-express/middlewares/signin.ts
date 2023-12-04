@@ -5,7 +5,7 @@ import { signUpOrSignInObject } from "../index";
 
 
 export const signin = async (req: Request, res: Response, _: NextFunction) => {
-    const parsedData = signUpOrSignInObject.safeParse(req.body)
+    const parsedData = signUpOrSignInObject(req.body)
 
     if (!parsedData.success) {
         return res.status(403).json({

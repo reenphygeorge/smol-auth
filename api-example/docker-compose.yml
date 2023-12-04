@@ -1,26 +1,5 @@
 version: "3.3"
 services:
-  redis:
-    image: redis:latest
-    container_name: redis
-    restart: always
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    volumes:
-      - redis_volume_data:/data
-    ports:
-      - 6379:6379
-  redis_insight:
-    image: redislabs/redisinsight:latest
-    container_name: redis_insight
-    restart: always
-    ports:
-      - 8001:8001
-    volumes:
-      - redis_insight_volume_data:/db
   db:
     image: postgres:latest
     container_name: mypostgres
@@ -39,6 +18,3 @@ services:
     restart: always
     volumes:
       - "./nc_data:/usr/app/data"
-volumes:
-  redis_volume_data:
-  redis_insight_volume_data:

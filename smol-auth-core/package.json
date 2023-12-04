@@ -1,6 +1,6 @@
 {
   "name": "smol-auth-core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Core smol package for JWT handling, database connections, and authentication functions",
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "jsonwebtoken": "^9.0.2",
     "kysely": "^0.26.3",
-    "pg": "^8.11.3",
-    "redis": "^4.6.10"
+    "pg": "^8.11.3"
   }
 }

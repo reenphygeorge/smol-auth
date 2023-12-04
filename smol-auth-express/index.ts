@@ -6,7 +6,7 @@ import { signin } from './middlewares/signin'
 import { signup } from './middlewares/signup'
 import { signout } from './middlewares/signout'
 import { validateUser } from './middlewares/validateUser'
-import { signUpOrSignInObject, roleObject } from './zod'
+import { signUpOrSignInObject, roleObject } from './validate'
 
 export {
     roleUpdater,

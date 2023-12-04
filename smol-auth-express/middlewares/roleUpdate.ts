@@ -5,7 +5,7 @@ import { refreshTokenHelper, globalConfig, roleObject } from "../index";
 
 export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
     // Check if given role is already configured    
-    const parsedData = roleObject.safeParse(req.body)
+    const parsedData = roleObject(req.body)
     if (!parsedData.success) {
         return res.status(403).json({
             success: false,
