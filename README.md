@@ -106,7 +106,7 @@
 
         npm run start-example:client
 
-6. Connect [NocoDB]('https://docs.nocodb.com/data-sources/connect-to-data-source/') to the auth db for dashboard
+6. Connect [NocoDB](https://docs.nocodb.com/data-sources/connect-to-data-source/) to the auth db for dashboard
 
         http://localhost:8080
 
