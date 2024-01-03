@@ -3,7 +3,7 @@ import { SignIn } from "./types";
 
 export const signin: SignIn = async (email: string, password: string) => {
     try {
-        const response = await fetch(`http://${__apiDomain}/signin`, {
+        const response = await fetch(`http://${__apiDomain}/api/auth/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

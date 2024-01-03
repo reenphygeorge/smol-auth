@@ -3,7 +3,7 @@ import { SignOut } from "./types";
 
 export const signout: SignOut = async () => {
     try {
-        const response = await fetch(`http://${__apiDomain}/signout`, {
+        const response = await fetch(`http://${__apiDomain}/api/auth/signout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

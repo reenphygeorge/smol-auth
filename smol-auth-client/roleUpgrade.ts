@@ -3,7 +3,7 @@ import { RoleUpgrade } from "./types";
 
 export const roleUpgrade: RoleUpgrade = async (role: string) => {
     try {
-        const response = await fetch(`http://${__apiDomain}/updateRole`, {
+        const response = await fetch(`http://${__apiDomain}/api/auth/updateRole`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

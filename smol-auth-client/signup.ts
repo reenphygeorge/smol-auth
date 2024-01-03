@@ -3,7 +3,7 @@ import { SignUp } from "./types";
 
 export const signup: SignUp = async (email: string, password: string) => {
     try {
-        const response = await fetch(`http://${__apiDomain}/signup`, {
+        const response = await fetch(`http://${__apiDomain}/api/auth/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

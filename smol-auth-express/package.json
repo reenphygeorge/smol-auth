@@ -1,6 +1,6 @@
 {
   "name": "smol-auth-express",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Express middleware for user authentication and role verification using smol-auth",
   "types": "types.d.ts",
   "repository": {
