@@ -5,43 +5,50 @@ import { createNewToken, createUser, getUserByEmail, generateAccessToken, genera
 import { signUpOrSignInObject } from "../index";
 
 export const signup = async (req: Request, res: Response, _: NextFunction) => {
-    const parsedData = signUpOrSignInObject(req.body)
+    try {
+        const parsedData = signUpOrSignInObject(req.body)
 
-    if (!parsedData.success) {
+        if (!parsedData.success) {
+            return res.status(403).json({
+                success: false,
+                message: 'Incomplete Data'
+            });
+        }
+
+        const { email, password } = parsedData.data;
+        if (!(await getUserByEmail(email))) {
+            const authId = createId()
+            // Store email and password (encrypted) in db and proceed.
+            const tokenData = { authId, role: __defaultRole };
+            const encryptedPassword: string = await hash(password, 10);
+            const accessToken = generateAccessToken(tokenData);
+            const refreshToken = generateRefreshToken(tokenData);
+
+            let refreshTokenIdList: string[] = []
+            let refreshTokenId: string;
+            // Store refresh token in db
+            refreshTokenId = await createNewToken(refreshToken);
+            refreshTokenIdList.push(refreshTokenId)
+            createUser({ authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId: JSON.stringify(refreshTokenIdList) });
+
+            // Setup cookie with tokens
+            const cookieValue = { accessToken, refreshTokenId }
+            res.cookie('authData', JSON.stringify(cookieValue), {
+                httpOnly: true,
+                secure: true,
+                expires: new Date(Date.now() + 86400000),
+                path: '/',
+            });
+            return res.json({ success: true, message: 'Welcome!', authId });
+        }
         return res.status(403).json({
             success: false,
-            message: 'Incomplete Data'
+            message: 'User Exists'
         });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Signup unsuccessful!'
+        })
     }
-
-    const { email, password } = parsedData.data;
-    if (!(await getUserByEmail(email))) {
-        const authId = createId()
-        // Store email and password (encrypted) in db and proceed.
-        const tokenData = { authId, role: __defaultRole };
-        const encryptedPassword: string = await hash(password, 10);
-        const accessToken = generateAccessToken(tokenData);
-        const refreshToken = generateRefreshToken(tokenData);
-
-        let refreshTokenIdList: string[] = []
-        let refreshTokenId: string;
-        // Store refresh token in db
-        refreshTokenId = await createNewToken(refreshToken);
-        refreshTokenIdList.push(refreshTokenId)
-        createUser({ authId, email, password: encryptedPassword, role: __defaultRole, refreshTokenId: JSON.stringify(refreshTokenIdList) });
-
-        // Setup cookie with tokens
-        const cookieValue = { accessToken, refreshTokenId }
-        res.cookie('authData', JSON.stringify(cookieValue), {
-            httpOnly: true,
-            secure: true,
-            expires: new Date(Date.now() + 86400000),
-            path: '/',
-        });
-        return res.json({ success: true, message: 'Welcome!', authId });
-    }
-    return res.status(403).json({
-        success: false,
-        message: 'User Exists'
-    });
 }
