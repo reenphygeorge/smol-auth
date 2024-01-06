@@ -23,7 +23,7 @@ export const refreshTokenHelper = async (refreshTokenId: string): Promise<Refres
         // cookie data
         else {
             const tokenData = { authId: parsedData.authId, role: parsedData.role }
-            const accessToken = generateAccessToken(tokenData)
+            const accessToken = generateAccessToken(tokenData, globalConfig.accessTokenSecret)
             const cookieValue = JSON.stringify({ accessToken, refreshTokenId })
             refreshTokenCookie = { success: true, cookieValue, ...tokenData }
         }

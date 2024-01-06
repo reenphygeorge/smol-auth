@@ -90,8 +90,8 @@ export const roleUpdater = (req: Request, res: Response, _: NextFunction) => {
 
             // Update user with new role and return updated cookie 
             data.role = role
-            const accessToken = generateAccessToken({ authId: __authId, role })
-            const refreshToken = generateRefreshToken({ authId: __authId, role })
+            const accessToken = generateAccessToken({ authId: __authId, role }, globalConfig.accessTokenSecret)
+            const refreshToken = generateRefreshToken({ authId: __authId, role }, globalConfig.refreshTokenSecret)
             const refreshTokenId = await updateRefreshTokenId(__authId, refreshToken)
             await updateUser(__authId, data)
             const cookieValue = { accessToken, refreshTokenId }

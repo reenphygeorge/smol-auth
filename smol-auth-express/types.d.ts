@@ -19,7 +19,6 @@ type SmolConfig = {
     connectionUrl: string;
     accessTokenSecret: string;
     refreshTokenSecret: string;
-    clientDomain: string;
 };
 
 type UserDataResponse = {

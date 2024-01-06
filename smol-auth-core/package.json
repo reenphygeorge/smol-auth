@@ -1,6 +1,6 @@
 {
   "name": "smol-auth-core",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Core smol package for JWT handling, database connections, and authentication functions",
   "repository": {
     "type": "git",

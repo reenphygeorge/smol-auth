@@ -21,7 +21,6 @@ type SmolConfig = {
     connectionUrl: string;
     accessTokenSecret: string;
     refreshTokenSecret: string;
-    clientDomain: string;
 };
 
 type TokenStore = {
@@ -44,7 +43,7 @@ type RefreshTokenCookie = {
     role: string;
 }
 
-type GenerateAccessToken = (tokenData: TokenData) => string;
+type GenerateAccessToken = (tokenData: TokenData, accessTokenSecret: string) => string;
 
 type User = {
     id: number;
@@ -81,7 +80,7 @@ type NewUserData = {
 
 type UpdateUser = (authId: string, user: UpdateUserData) => Promise<void>;
 
-type GenerateRefreshToken = (tokenData: TokenData) => string;
+type GenerateRefreshToken = (tokenData: TokenData, refreshTokenSecret: string) => string;
 
 type CreateNewToken = (token: string) => Promise<string>;
 

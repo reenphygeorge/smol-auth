@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import { compare } from "bcryptjs"
 import { createNewToken, getUserByEmail, updateRefreshTokenId, generateAccessToken, generateRefreshToken } from "smol-auth-core"
-import { signUpOrSignInObject } from "../index";
+import { globalConfig, signUpOrSignInObject } from "../index";
 
 
 export const signin = async (req: Request, res: Response, _: NextFunction) => {
@@ -29,8 +29,8 @@ export const signin = async (req: Request, res: Response, _: NextFunction) => {
                 }
 
                 // Generate new tokens with the id & role
-                const accessToken = generateAccessToken(tokenData)
-                const refreshToken = generateRefreshToken(tokenData)
+                const accessToken = generateAccessToken(tokenData, globalConfig.accessTokenSecret)
+                const refreshToken = generateRefreshToken(tokenData, globalConfig.refreshTokenSecret)
 
                 // Get refreshToken list from db
                 let refreshTokenIdList: string[] = JSON.parse(userData.refreshTokenId)
